@@ -27,7 +27,9 @@ For final processed data and feature representations generated during the proces
 
 ### Feature representation model
 
-The feature representation used the pre-trained protein model ESM2 developed by Meta company and placed on Hugging Face. For more details, please search in https://huggingface.co/facebook/esm2_t6_8M_UR50D.  
+The feature representation used the pre-trained protein model ESM2 developed by Meta company and placed on Hugging Face. For more details, please search in https://huggingface.co/facebook/esm2_t6_8M_UR50D. Besides, we develop  protloc-mex-x which containing detail for 'cls','mean', 'eos','segment 0-9','pho' feature representation from ESM2.
+
+
 
 ### VAE dimensional reduction model 
 
@@ -113,6 +115,146 @@ latent_vectors_df = pd.DataFrame(latent_vectors, index=np.concatenate([X_train.i
 
 
 ### DNN/RF classification model
+
+For using downstream prediction model based on feature representation, we develop several DNN and RF model for different feature representation construction and demonstrate how to use DNN model based on combined feature to inference and evaluate outcome .
+
+1. Define DNN model. 
+
+```
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import os
+from sklearn.preprocessing import LabelEncoder
+import pandas as pd
+from protloc_mex1.classifier_evalute import ClassifierEvaluator
+import numpy as np
+
+class ClassificationDNN(nn.Module):
+    def __init__(self, input_dim, hidden_dim, num_classes):
+        super().__init__()
+        
+        # Fully connected layers
+        self.fc1 = nn.Linear(input_dim, hidden_dim)
+        self.fc2 = nn.Linear(hidden_dim, hidden_dim // 2)
+        self.fc3 = nn.Linear(hidden_dim // 2, hidden_dim // 4)
+        self.fc4 = nn.Linear(hidden_dim // 4, hidden_dim // 8)
+        self.fc5 = nn.Linear(hidden_dim // 8, num_classes)
+        
+        # Batch Normalization layers
+        self.bn1 = nn.BatchNorm1d(hidden_dim)
+        self.bn2 = nn.BatchNorm1d(hidden_dim // 2)
+        self.bn3 = nn.BatchNorm1d(hidden_dim // 4)
+        self.bn4 = nn.BatchNorm1d(hidden_dim // 8)
+        # Loss function
+        self.criterion = nn.NLLLoss()
+
+    def forward(self, x):
+        x = F.leaky_relu(self.bn1(self.fc1(x)))
+        x = F.leaky_relu(self.bn2(self.fc2(x)))
+        x = F.leaky_relu(self.bn3(self.fc3(x)))
+        x = F.leaky_relu(self.bn4(self.fc4(x)))
+        x = self.fc5(x)
+        
+        return F.log_softmax(x, dim=1)  # Apply Log Softmax for multi-class classification
+
+    def compute_loss(self, outputs, targets):
+        return self.criterion(outputs, targets)
+
+```
+
+2. Load model parameter and fit model architecture.
+
+```
+# Configuration
+input_dim = 3152 ##the dim of combined feature 
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+num_classes=10
+
+save_dir = "./Model/ESM2_feature_all/DNN_model_param"
+
+save_path = "<YOUR_PATH_HERE>"
+# Load the model
+# Load parameters
+load_model=ClassificationDNN(input_dim=input_dim, hidden_dim=802,num_classes=num_classes).to(device)
+
+load_model.load_state_dict(torch.load(os.path.join(save_dir,'model_parameters.pt')))
+
+```
+
+3. Define model inference function 
+
+```
+# Model inference
+
+def model_infer(X_data,best_model):
+    best_model.eval()
+
+    input_data = torch.Tensor(X_data.values).to(device) # or your test data
+
+    with torch.no_grad():
+        predictions = best_model(input_data)
+        
+    predictions = predictions.exp()
+    _, predicted_labels = torch.max(predictions, 1)
+
+    predicted_labels = predicted_labels.cpu().numpy()
+    probabilities = predictions.cpu().numpy()
+    return predicted_labels, probabilities
+
+
+```
+
+4. Start reading the combined feature inference data, conduct inference and evaluate. Caution, this dataset is only a small subset of the original data. To access the complete dataset, please either follow the previous steps for generation or contact the author.
+
+```
+
+inference_data=pd.read_excel(os.path.join(save_dir,'ESM2_combined_feature_inference_test.xlsx'))
+
+inference_data.set_index('ID',inplace=True)
+
+X_inference_data= inference_data.drop('label',axis=1)
+
+y_inference_data= inference_data.loc[:,'label']
+
+
+
+label_mapping=pd.read_excel(os.path.join(save_dir,'label2number.xlsx'))
+
+
+# Convert DataFrame to Dictionary
+label_dict = dict(zip(label_mapping['EncodedLabel'], label_mapping['OriginalLabel']))
+
+
+X_inference_data_hat,X_inference_data_probabilities=model_infer(X_inference_data,best_model=load_model)
+
+X_inference_data_hat = [label_dict[i] for i in X_inference_data_hat]
+
+
+
+# Build classifier and perform evaluation
+
+# Convert the prediction results to DataFrame
+
+X_inference_data_hat = pd.DataFrame(X_inference_data_hat, columns=["predict"],index=X_inference_data.index)
+
+classes=label_mapping.loc[:,'OriginalLabel'].values
+
+# Create ClassifierEvaluator object
+
+test_classification = ClassifierEvaluator(X_inference_data_probabilities, y_inference_data, X_inference_data_hat, classes)
+
+# Save evaluation results
+
+test_classification.classification_report_conduct( save_path,'/file_name')
+
+# Plot evaluation charts
+test_classification.classification_evaluate_plot(save_path,'/file_name',(10,10))
+```
+
+## model interpretation 
 
 ```
 ## we are under review, and this example code and file regard this model will realse soon.
