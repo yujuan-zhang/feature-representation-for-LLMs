@@ -40,7 +40,6 @@ For using VAE model you can follow this instructions,
 1. First, we need to import the required Python libraries, and define the architecture for the VAE (Variational Autoencoder) model.
 
 ```python
-
 import torch
 import numpy as np
 import pandas as pd
@@ -52,10 +51,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Define the VAE model
 class ContinuousResidualVAE(torch.nn.Module):
 # Model architecture is defined in the model architecture file, please copy it to replace this.
-
 ```
 
-2. Loading a pre-trained VAE (Variational Autoencoder) model, and then use the model to reduce the ESM21280-dimensional features to 18 dimensions.
+2. Loading a pre-trained VAE (Variational Autoencoder) model, and then use the model to reduce the ESM2 'cls' 1280-dimensional features to 18 dimensions. For inference on additional features (eos, pho), refer to the preceding method and independently train the VAE model.
 
 ```python
 # Randomly set parameters
@@ -84,9 +82,6 @@ batch_size = 32  # This is arbitrary; adjust as needed
 # Load parameters
 load_model = ContinuousResidualVAE(input_dim, hidden_dim, z_dim, loss_type='MSE',reduction='sum').to(device)
 load_model.load_state_dict(torch.load(os.path.join(save_dir, 'model_parameters.pt')))
-
-
-
 ```
 
 3. Execute inference using the model, where each protein variable is individually processed through the model, extracting the reduced 18-dimensional features.
@@ -111,8 +106,6 @@ latent_vectors = np.concatenate(latent_vectors, axis=0)
 # Convert the latent vectors to DataFrame and reorder it according to the original index
 latent_vectors_df = pd.DataFrame(latent_vectors, index=np.concatenate([X_train.index, X_val.index]), columns=[f"latent_{i}" for i in range(latent_vectors.shape[1])])
 ```
-
-
 
 ### DNN/RF classification model
 
@@ -175,7 +168,6 @@ class ClassificationDNN(nn.Module):
         predicted_labels = predicted_labels.cpu().numpy()
         probabilities = predictions.cpu().numpy()
         return predicted_labels, probabilities
-
 ```
 
 2. Load model parameter and fit model architecture.
