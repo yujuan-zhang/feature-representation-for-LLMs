@@ -120,7 +120,7 @@ For using downstream prediction model based on feature representation, we develo
 
 1. Define DNN model. 
 
-```
+```python
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -160,12 +160,27 @@ class ClassificationDNN(nn.Module):
 
     def compute_loss(self, outputs, targets):
         return self.criterion(outputs, targets)
+    
+    def model_infer(self, X_data, device):
+        self.eval()
+
+        input_data = torch.Tensor(X_data.values).to(device) # or your test data
+
+        with torch.no_grad():
+            predictions = self(input_data)
+            
+        predictions = predictions.exp()
+        _, predicted_labels = torch.max(predictions, 1)
+
+        predicted_labels = predicted_labels.cpu().numpy()
+        probabilities = predictions.cpu().numpy()
+        return predicted_labels, probabilities
 
 ```
 
 2. Load model parameter and fit model architecture.
 
-```
+```python
 # Configuration
 input_dim = 3152 ##the dim of combined feature 
 
@@ -181,57 +196,42 @@ save_path = "<YOUR_PATH_HERE>"
 load_model=ClassificationDNN(input_dim=input_dim, hidden_dim=802,num_classes=num_classes).to(device)
 
 load_model.load_state_dict(torch.load(os.path.join(save_dir,'model_parameters.pt')))
-
+load_model.eval()  # 设置模型为评估模式
 ```
 
-3. Define model inference function 
+3. 读入模型的训练集以确保后面的推断数据的特征与模型训练用到的数据特征一样, conduct inference and evaluate. Caution, this dataset is only a small subset of the original data. To access the complete dataset, please either follow the previous steps for generation or contact the author.
 
-```
-# Model inference
-
-def model_infer(X_data,best_model):
-    best_model.eval()
-
-    input_data = torch.Tensor(X_data.values).to(device) # or your test data
-
-    with torch.no_grad():
-        predictions = best_model(input_data)
-        
-    predictions = predictions.exp()
-    _, predicted_labels = torch.max(predictions, 1)
-
-    predicted_labels = predicted_labels.cpu().numpy()
-    probabilities = predictions.cpu().numpy()
-    return predicted_labels, probabilities
-
-
-```
-
-4. Start reading the combined feature inference data, conduct inference and evaluate. Caution, this dataset is only a small subset of the original data. To access the complete dataset, please either follow the previous steps for generation or contact the author.
-
-```
+```python
+train_data = pd.read_excel(os.path.join(save_dir, 'train_ESM2_feature_all_DNN.xlsx'))
 
 inference_data=pd.read_excel(os.path.join(save_dir,'ESM2_combined_feature_inference_test.xlsx'))
 
 inference_data.set_index('ID',inplace=True)
 
 X_inference_data= inference_data.drop('label',axis=1)
-
 y_inference_data= inference_data.loc[:,'label']
 
+#检查 merged_df 是否包含所有 train_scale_data 的列
+if set(train_data.columns) == set(X_inference_data.columns):
+    print("All columns from X_train are in X_test.")
+else:
+    raise ValueError("The columns of 'X_train' do not match the columns of 'X_test'.")
 
+#调整列的顺序，与训练集相同
+X_inference_data = X_inference_data.reindex(columns=train_data.columns)
+```
 
+4. 模型推断以得到分类结果，最后还执行模型的分类效果评价（混淆矩阵、精准率、MCC）
+
+```python
 label_mapping=pd.read_excel(os.path.join(save_dir,'label2number.xlsx'))
-
 
 # Convert DataFrame to Dictionary
 label_dict = dict(zip(label_mapping['EncodedLabel'], label_mapping['OriginalLabel']))
 
-
-X_inference_data_hat,X_inference_data_probabilities=model_infer(X_inference_data,best_model=load_model)
+X_inference_data_hat,X_inference_data_probabilities=load_model.model_infer(X_inference_data,device=device)
 
 X_inference_data_hat = [label_dict[i] for i in X_inference_data_hat]
-
 
 
 # Build classifier and perform evaluation
@@ -248,7 +248,7 @@ test_classification = ClassifierEvaluator(X_inference_data_probabilities, y_infe
 
 # Save evaluation results
 
-test_classification.classification_report_conduct( save_path,'/file_name')
+test_classification.classification_report_conduct(save_path,'/file_name')
 
 # Plot evaluation charts
 test_classification.classification_evaluate_plot(save_path,'/file_name',(10,10))
