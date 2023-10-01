@@ -39,7 +39,7 @@ For using VAE model you can follow this instructions,
 
 1. First, we need to import the required Python libraries, and define the architecture for the VAE (Variational Autoencoder) model.
 
-```
+```python
 
 import torch
 import numpy as np
@@ -57,7 +57,7 @@ class ContinuousResidualVAE(torch.nn.Module):
 
 2. Loading a pre-trained VAE (Variational Autoencoder) model, and then use the model to reduce the ESM21280-dimensional features to 18 dimensions.
 
-```
+```python
 # Randomly set parameters
 input_dim = 1280  # the dimensionality of ESM2 feature representation is 1280
 hidden_dim = 859  
@@ -91,7 +91,7 @@ load_model.load_state_dict(torch.load(os.path.join(save_dir, 'model_parameters.p
 
 3. Execute inference using the model, where each protein variable is individually processed through the model, extracting the reduced 18-dimensional features.
 
-```
+```python
 # perform inference directly on the dataset
 latent_vectors = []
 load_model.eval()  # switch to evaluation mode
@@ -196,10 +196,10 @@ save_path = "<YOUR_PATH_HERE>"
 load_model=ClassificationDNN(input_dim=input_dim, hidden_dim=802,num_classes=num_classes).to(device)
 
 load_model.load_state_dict(torch.load(os.path.join(save_dir,'model_parameters.pt')))
-load_model.eval()  # 设置模型为评估模式
+load_model.eval()  # Set the model to evaluation mode
 ```
 
-3. 读入模型的训练集以确保后面的推断数据的特征与模型训练用到的数据特征一样, conduct inference and evaluate. Caution, this dataset is only a small subset of the original data. To access the complete dataset, please either follow the previous steps for generation or contact the author.
+3. Load the training set of the model to ensure that the features of the inference data match the features of the data used for model training, conduct inference and evaluate. Caution, this dataset is only a small subset of the original data. To access the complete dataset, please either follow the previous steps for generation or contact the author.
 
 ```python
 train_data = pd.read_excel(os.path.join(save_dir, 'train_ESM2_feature_all_DNN.xlsx'))
@@ -211,17 +211,17 @@ inference_data.set_index('ID',inplace=True)
 X_inference_data= inference_data.drop('label',axis=1)
 y_inference_data= inference_data.loc[:,'label']
 
-#检查 merged_df 是否包含所有 train_scale_data 的列
+#Verify if merged_df encompasses all columns present in train_scale_data
 if set(train_data.columns) == set(X_inference_data.columns):
     print("All columns from X_train are in X_test.")
 else:
     raise ValueError("The columns of 'X_train' do not match the columns of 'X_test'.")
 
-#调整列的顺序，与训练集相同
+#Adjust the order of columns to match that of the training set
 X_inference_data = X_inference_data.reindex(columns=train_data.columns)
 ```
 
-4. 模型推断以得到分类结果，最后还执行模型的分类效果评价（混淆矩阵、精准率、MCC）
+4. Perform model inference to obtain classification results, and finally execute the evaluation of the model's classification performance (confusion matrix, precision, MCC).
 
 ```python
 label_mapping=pd.read_excel(os.path.join(save_dir,'label2number.xlsx'))
