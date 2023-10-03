@@ -25,6 +25,12 @@ For final processed data and feature representations generated during the proces
 
 ## Model
 
+### UMAP Model
+
+```
+## we are under review, and this example code and file regard this model will realse soon.
+```
+
 ### Feature representation model
 
 The feature representation used the pre-trained protein model ESM2 developed by Meta company and placed on Hugging Face. For more details, please search in https://huggingface.co/facebook/esm2_t6_8M_UR50D. Besides, we develop  protloc-mex-x which containing detail for 'cls','mean', 'eos','segment 0-9','pho' feature representation from ESM2.
@@ -107,6 +113,65 @@ latent_vectors = np.concatenate(latent_vectors, axis=0)
 latent_vectors_df = pd.DataFrame(latent_vectors, index=np.concatenate([X_train.index, X_val.index]), columns=[f"latent_{i}" for i in range(latent_vectors.shape[1])])
 ```
 
+<<<<<<< HEAD
+### Stand Scaler Model
+
+由于数据增强阶段需要用到基于距离的算法来生成数据，因此我们对训练集进行z-score标准化，再进行数据增强，这样会导致亚细胞定位模型（DNN，RF）需要对标准化后的数据进行拟合。因此我们保留了训练集的标准化特征即平均值和方差，并将其用于测试集和推断数据的对应特征进行标准化。值得注意的是使用训练集的标准差和平均值来对测试集或推断数据进行标准化是合理且标准的做法。这种做法不会导致数据泄露。理由如下，
+
+1. 在机器学习中，重要的一点是防止从测试集中泄露任何信息到训练过程中。如果你使用测试集的统计数据（例如平均值和标准差）来标准化训练集，那么就会产生数据泄露。但是，如果你使用训练集的统计数据来标准化测试集和推断数据，那么不会发生数据泄露。
+2. 由于模型是在训练集的分布下训练的，因此使用相同的参数（即训练集的平均值和标准差）来标准化测试集和推断数据是合理的。这确保了模型在处理类似分布的数据时能够表现良好。
+3. 在实际情况中，当新数据到来时，你通常不会有机会重新计算标准化参数。因此，使用训练集的参数来标准化新数据是模拟实际操作的一种方式。
+
+基于此，我们对不同特征划分的训练集（与后面的DNN/RF模型对应）都进行了自己的标准化，并将进行标准化的模型放入了`./Model/Stand_scaler_model`中，下面我们将以cls_scaler举例说明如何使用我们训练好的标准化模型对cls特征的测试集或推断数据集进行拟合操作（注：标准化模型训练就是对训练集进行z-score并保留特征的平均值和标准差，故不再介绍训练过程）。需要注意的是所有数据包括新的拟合数据在将其放入训练好的DNN或RF进行推断时都需要根据对应的标准化模型进行拟合。
+
+1. 读入定义的SimpleScaler标准化模型框架和对应的训练集数据，注意这里的训练集只是feature all的特征训练集的一部分蛋白，主要是作为记录数据的特征列顺序的信息。
+
+   ```python
+   import os
+   import pandas as pd
+   import numpy as np
+   from <> import SimpleScaler
+   save_dir = "./Model/Stand_scaler_model"
+   
+   save_path = "<YOUR_PATH_HERE>"
+   train_data = pd.read_csv(os.path.join(save_dir, 'feature_all_train.csv'))‘
+   
+   scaler_filepath =save_dir+ '/feature_all_scaler.joblib'  
+   feature_all_scaler = SimpleScaler.load(scaler_filepath)
+   ```
+
+2. 读入待标准化的新的推理数据集，需要确保其特征和训练集特征一模一样。
+
+   ```python
+   inference_data=pd.read_excel(os.path.join(save_dir,'your_data.xlsx'))
+   
+   inference_data.set_index('ID',inplace=True)##if your data have ID ,you need do this step.
+   
+   X_inference_data= inference_data.drop('label',axis=1)##if you are using our test data need this step.
+   y_inference_data= inference_data.loc[:,'label'] ##if you are using our test data need this step.
+   
+   #Verify if merged_df encompasses all columns present in train_scale_data
+   if set(train_data.columns) == set(X_inference_data.columns):
+       print("All columns from X_train are in X_test.")
+   else:
+       raise ValueError("The columns of 'X_train' do not match the columns of 'X_test'.")
+   
+   #Adjust the order of columns to match that of the training set
+   X_inference_data = X_inference_data.reindex(columns=train_data.columns)
+   ```
+
+3. 对`X_inference_data`按照训练好的标准化模型进行标准化操作,在进行前可设置numpy的输出精度为15位小数
+
+   ```python
+   # 设置numpy的输出精度为15位小数
+   np.set_printoptions(precision=15)
+   normalized_test_data = feature_all_scaler.transform(X_inference_data)
+   ```
+
+注意这里只演示了feature all特征数据集的标准化，如果数据集是使用ESM2提取的其它特征如'cls','eos','pho'等需要在`./Model/Stand_scaler_model`中使用对应的标准化模型和特征训练集（用以确保数据集的特征与训练模型的特征一致。）后面的DNN和RF也是类似的过程即需要预训练的模型和对应的特征输入。当然我们并不想加大使用我们模型的难度，这样处理主要是为了更系统化的对ESM2的不同特征提取进行详细分析，我们的项目致力于提供底层的分段式模块，用于大家自由组合搭建需要的任务流程。
+
+=======
+>>>>>>> fef861451b3241180015b0c41981e05b0bfe51cd
 ### DNN/RF classification model
 
 For using downstream prediction model based on feature representation, we develop several DNN and RF model for different feature representation construction and demonstrate how to use DNN model based on combined feature to inference and evaluate outcome .
