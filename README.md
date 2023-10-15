@@ -389,7 +389,7 @@ test_classification.classification_evaluate_plot(save_path,'/your_file_name',(10
 
 ### DNN_Liner model
 
-DNN_Liner model training detail in methods() ,and completed trained model are placed in corresponding file.
+DNN_Liner model training detail in [methods](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/DNN%20Liner/DNN_Line%20model%20training.md) ,and completed trained model are placed in corresponding file.
 
 ### MCC five-fold validation
 
@@ -473,7 +473,7 @@ with pd.ExcelWriter(os.path.join(save_path, "mcc_results.xlsx")) as writer:
 
 ## model interpretation 
 
-We employed three interpretability methods, DeepExplainer, Integrated Gradient, and Tree SHAP. Using these interpretability methods, we calculated feature importance. For details on the calculation methods and further feature importance visualization, please refer to the methods ().
+We employed three interpretability methods, DeepExplainer, Integrated Gradient, and Tree SHAP. Using these interpretability methods, we calculated feature importance. For details on the calculation methods and further feature importance visualization, please refer to the [methods](https://github.com/yujuan-zhang/feature-representation-for-LLMs/tree/main/Model/Model%20interpretation).
 
 ## Citation
 
