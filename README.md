@@ -23,13 +23,13 @@ The raw data regarding train, test, and independent sets have been placed in the
 
 the final processed data and feature representations generated during the process are already placed on figshare(DOI:10.6084/m9.figshare.24312292), If you have any questions, please contact the "Author 1: Zeyu Luo Email: [1024226968@qq.com]" for access.
 
+Additional, original data (train, test, independent test) and Table S10 related to this project are available on figshare(DOI:10.6084/m9.figshare.24312292).
+
+## Non-homologous division process
+
+We performed a non-homologous operation, you can follow this methods ().
+
 ## Model
-
-### UMAP Model
-
-```
-## we are under review, and this example code and file regard this model will realse soon.
-```
 
 ### Feature representation model
 
@@ -190,7 +190,7 @@ Please note that here only the normalization of the 'feature all' feature datase
 
 ### DNN/RF classification model
 
-For using downstream prediction model based on feature representation, we develop several DNN and RF model for different feature representation construction and demonstrate how to use DNN model based on combined feature to inference and evaluate outcome.
+For using downstream prediction model based on feature representation, we develop several DNN (MLP) and RF model for different feature representation construction and demonstrate how to use DNN model based on combined feature to inference and evaluate outcome.
 
 For the detail in training the DNN model and RF model refer to <DNN训练说明> and <RF训练说明>.
 
@@ -198,7 +198,7 @@ For inference using the trained DNN and RF models, please refer to the following
 
 **RF model for inference**
 
-1. load RF model,`train_data` (also used for check if the inference data feature match corresponding model) and `inference_data`, we also choose 'feature all' model and corresponding train_data for demonstrate and place in `./Model/ESM2_feature_all/RF_model_param`, other type of feature train data with their model can communicate to author for acquired . Please note that the RF model is a complete `scikit-learn` model. It is crucial to ensure that your `scikit-learn` version is compatible with ours. The version of the `scikit-learn` package is indicated in the model filename as `1.2.2`.
+1. load RF model,`train_data` (also used for check if the inference data feature match corresponding model) and `inference_data`, we also choose 'feature all' model and corresponding train_data for demonstrate and place in `./Model/ESM2_feature_all/RF_model_param`, other type of feature train data with their model can be found in figshare(DOI: 10.6084/m9.figshare.24312292), if you have any problem, communicate to author for acquired . Please note that the RF model is a complete `scikit-learn` model. It is crucial to ensure that your `scikit-learn` version is compatible with ours. The version of the `scikit-learn` package is indicated in the model filename as `1.2.2`.
 
    ```python
    import os
@@ -248,7 +248,6 @@ For inference using the trained DNN and RF models, please refer to the following
    test_classification.classification_evaluate_plot(save_path,'/your_file_name',(10,10))
    ```
 
-   
 
 **DNN model for inference**
 
@@ -388,13 +387,89 @@ test_classification.classification_evaluate_plot(save_path,'/your_file_name',(10
 
 ```
 
+### MCC five-fold validation
 
+In order to evaluate the performance of the independent test set more accurately and comprehensively, we employed `StratifiedKFold` for 5-fold stratified cross-validation, and calculated the average and sample standard deviation (unbiased estimate) of the MCC (Matthews Correlation Coefficient) scores from the cross-validation. Note each fold's training data is not utilized for model training but set aside, whereas the testing portion is employed to compute the MCC score. Hence, our approach more closely aligns with the external validation phase of Nested Cross-Validation. The steps are as follows:
+
+1. Import the necessary packages, where cross-validation is performed using `StratifiedKFold` from the `sklearn` library.
+
+```python
+import pandas as pd
+import os
+import numpy as np
+from sklearn.metrics import matthews_corrcoef
+from sklearn.model_selection import StratifiedKFold
+```
+
+2. Define a function to calculate the MCC score, and execute a 5-fold cross-validation. If a fold used for calculating the MCC score has fewer than two types of classification labels in the test set, skip this fold.
+
+```python
+def calculate_mcc_for_class(y_true, y_pred, protein_class):
+    type_mapping = {value: 1 if value == protein_class else 0 for value in y_true.unique()}
+    y_true_mapped = y_true.map(type_mapping)
+    y_pred_mapped = y_pred.map(type_mapping)
+    return matthews_corrcoef(y_true_mapped, y_pred_mapped)
+
+def process_dict_for_mcc(data_dict, label_col, pred_col):
+    rows_for_each_label = []
+
+    for pattern, df in data_dict.items():
+        skf = StratifiedKFold(n_splits=5, random_state=42, shuffle=True)
+        all_indices = list(skf.split(df, df[label_col]))  # Store all indices
+
+        for label in df[label_col].unique():
+            mcc_scores_label = []
+
+            for train_index, test_index in all_indices:  # Use the stored indices
+                _, test = df.iloc[train_index], df.iloc[test_index]
+
+                # Inspect the number of categories
+                if len(test[label_col].unique()) < 2 or len(test[pred_col].unique()) < 2:
+                    continue  # skip this fold
+
+                mcc = calculate_mcc_for_class(test[label_col], test[pred_col], label)
+                mcc_scores_label.append(mcc)
+
+            mean_mcc_label = np.mean(mcc_scores_label)
+            std_mcc_label = np.std(mcc_scores_label, ddof=1)  # get sample standard deviation
+
+            row_for_each_label = pd.DataFrame({
+                'Pattern': [pattern],
+                'Label': [label],
+                'MCC': [mean_mcc_label],
+                'MCC_Std': [std_mcc_label]  
+
+            })
+            rows_for_each_label.append(row_for_each_label)
+
+    df_each_label = pd.concat(rows_for_each_label, ignore_index=True)
+
+    return df_each_label  # Return each categorie label Mcc 5 fold outcome
+```
+
+3. Execute batch processing for 5-fold cross-validation to calculate the MCC scores, where `dfs_test` is a dictionary with different feature names as keys (e.g., 'cls', 'eos', 'pho', etc.), and values are datasets containing their respective features, true subcellular localization labels of proteins, and prediction labels from DNN or RF models, respectively. By running our algorithm, a comprehensive evaluation of different feature types and model predictions can be conducted in batch.
+
+```python
+dfs_test = {key: value for key, value in dfs_test.items()}  
+
+df_each_label = process_dict_for_mcc(
+        dfs_test,
+        label_col="label",  # your data True label column
+        pred_col="predict"  # model predict label column
+    )
+
+
+# save_path = '.'  # please define your save path
+with pd.ExcelWriter(os.path.join(save_path, "mcc_results.xlsx")) as writer:
+    if df_each_label is not None:
+        df_each_label.to_excel(writer, sheet_name="each_label", i
+                               ndex=False)
+
+```
 
 ## model interpretation 
 
-```
-## we are under review, and this example code and file regard this model will realse soon.
-```
+We employed three interpretability methods, DeepExplainer, Integrated Gradient, and Tree SHAP. Using these interpretability methods, we calculated feature importance. For details on the calculation methods and further feature importance visualization, please refer to the methods ().
 
 ## Citation
 
