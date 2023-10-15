@@ -17,7 +17,7 @@ Please note that the article is currently under review, and as a result, some co
 
 Your contributions, feedback, and suggestions are highly appreciated. If you encounter any issues or have questions, feel free to reach out to the authors via the provided email addresses. Thank you for your interest in our work!
 
-## Datasets
+## Dataset Available
 
 The raw data regarding train, test, and independent sets have been placed in the "source_data" folder. To transform these raw sequences into corresponding feature representations, and to perform the train and test split, we will refer to the instructions provided in the mentioned Python toolkits (protloc-mex-x). 
 
@@ -395,10 +395,6 @@ test_classification.classification_evaluate_plot(save_path,'/your_file_name',(10
 ```
 ## we are under review, and this example code and file regard this model will realse soon.
 ```
-
-## Dataset Available
-
-
 
 ## Citation
 
