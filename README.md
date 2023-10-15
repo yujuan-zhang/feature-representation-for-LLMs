@@ -27,7 +27,7 @@ Additional, original data (train, test, independent test) and Table S10 related 
 
 ## Non-homologous division process
 
-We performed a non-homologous operation, you can follow this methods ().
+We performed a non-homologous operation, you can follow this [methods](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/Instructions%20for%20creating%20a%20dataset%20based%20on%20non-homologous%20division.md).
 
 ## Model
 
@@ -37,7 +37,7 @@ The feature representation used the pre-trained protein model ESM2 developed by 
 
 ### Res-VAE dimensional reduction model 
 
-For the detail in training the Res-VAE model refer to <VAE训练说明>
+For the detail in training the Res-VAE model refer to [VAE training detail](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/VAE%20model/Res_VAE%20training%20detail.md)
 
 VAE model includes the model weights file (model_parameters.pt), the architecture parameters file (model_optimization_results.xlsx), the model architecture file (VAE_original_architecture). 
 
@@ -192,7 +192,7 @@ Please note that here only the normalization of the 'feature all' feature datase
 
 For using downstream prediction model based on feature representation, we develop several DNN (MLP) and RF model for different feature representation construction and demonstrate how to use DNN model based on combined feature to inference and evaluate outcome.
 
-For the detail in training the DNN model and RF model refer to <DNN训练说明> and <RF训练说明>.
+For the detail in training the DNN model and RF model refer to [DNN training detrail](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/ESM2_feature_all/DNN_model_param/DNN%20MLP.md) and [RF training detrail](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/ESM2_feature_all/RF_model_param/RF%20training%20detail.md).
 
 For inference using the trained DNN and RF models, please refer to the following guidelines.
 
@@ -386,6 +386,10 @@ test_classification.classification_report_conduct(save_path,'/your_file_name')
 test_classification.classification_evaluate_plot(save_path,'/your_file_name',(10,10))
 
 ```
+
+### DNN_Liner model
+
+DNN_Liner model training detail in methods() ,and completed trained model are placed in corresponding file.
 
 ### MCC five-fold validation
 

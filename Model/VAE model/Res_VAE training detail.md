@@ -247,21 +247,13 @@
       study.optimize(objective, n_trials=50)
       ```
 
-      <model1>:
+   5. The trained model from above can be saved and used to extract the hidden layer `z` features for both the training data and new data such as the test set. For more details, see the main [VAE documentation page](https://github.com/yujuan-zhang/feature-representation-for-LLMs).
 
-      <model2>:
-
-   5. The trained model from above can be saved and used to extract the hidden layer `z` features for both the training data and new data such as the test set. For more details, see the [main VAE documentation page](![img](file:///C:\Users\qq102\AppData\Roaming\Tencent\QQTempSys\[5UQ[BL(6~BS2JV6W}N6[%S.png)https://github.com/yujuan-zhang/feature-representation-for-LLMs).
-
-   6. Training performance and optimal hyperparameters for ESM2_650m_cls, <model1>, <model2>
+   6. Training performance and optimal hyperparameters for ESM2_650m_cls, 
 
       | model     | Best z_dim | Best hidden_dim | Best learning rate | Best eval loss | lose_type | epoch | input_dim |
       | :-------- | ---------- | :-------------- | ------------------ | :------------- | :-------- | :---- | --------- |
       | ESM2_650M | 18         | 859             | 0.000469           | 22509.06       | MSE       | 80    | 1280      |
-      |           |            |                 |                    |                |           |       |           |
-      |           |            |                 |                    |                |           |       |           |
-
-​          
 
 It is worth noting that higher loss on the validation set is expected due to the use of Mean Squared Error (MSE) with a multiplicative factor of `beta` set to 1000. Additionally, we employ a `sum` reduction strategy, summing up the Reconstruction (REC) and Kullback-Leibler Divergence (KLD) losses across both the batch and feature dimensions. With a batch size of 32 and an input dimension of 1280 for ESM2_650M, elevated loss values are anticipated.
 
