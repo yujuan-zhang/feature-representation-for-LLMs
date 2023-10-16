@@ -1,7 +1,8 @@
-1. Define the DNN Model (The model is the same as the previous DNN model).
+1. Define the DNN (MLP) Model (The model is the same as the previous DNN model).
 
 ```python
 ## Define the DNN model
+##DNN_MLP
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -56,6 +57,7 @@ class ClassificationDNN(nn.Module):
 2. Setting up Global Configuration and Workspace Directories for SHAP Analysis.
 
 ```python
+# Import necessary libraries
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -66,104 +68,80 @@ from protloc_mex1.SHAP_conduct import DeepSHAPValueConduct
 from protloc_mex1.SHAP_conduct import SHAPValueConduct
 from protloc_mex1.SHAP_plus import FeaturePlot
 
-## Global Configuration
-open_path = r"D:\Working\Team\Luo_Zeyu\Sub_articles\BIB\Revision_processing\11_shap_interpretable\1_shap\data"
-save_path = r"D:\Working\Team\Luo_Zeyu\Sub_articles\BIB\Revision_processing\11_shap_interpretable\1_shap\output"
+# Define global parameters and file paths
+open_path=r"<the path of model, model_parameter file and data>"
+save_path=r"<your save path>"
+up_down_name="label"
+type_name=['human']
+gene_ID="Entry"
+shap_plot_figure_size=(15,10)
 
-up_down_name = "label"
-cancer_name = ['human'  # You can add more cancer types here
-              ]
-gene_ID = "Entry"
-shap_plot_figure_size = (15, 10)
-
-# File Names
-names = os.listdir(open_path)
+# Define file names
+names=os.listdir(open_path)
 model_parameters_name = 'model_parameters.pt'
 model_optimization_results_name = 'model_optimization_results.xlsx'
 label2number_name = 'label2number.xlsx'
 
-## Workspace Setup
-
-# Create a directory for the specified cancer type
-if os.path.isdir(os.path.join(save_path, cancer_name[0])):
+# Set up working directories
+if os.path.isdir(save_path+"/"+type_name[0]):
     pass
 else:
-    os.makedirs(os.path.join(save_path, cancer_name[0]))
+    os.makedirs(save_path+"/"+type_name[0])
 
-# Create subdirectories for SHAP analysis
-if os.path.isdir(os.path.join(save_path, cancer_name[0], "shap_global")):
+if os.path.isdir(save_path+"/"+type_name[0]+"/shap_global"):
     pass
 else:
-    os.makedirs(os.path.join(save_path, cancer_name[0], "shap_global"))
+    os.makedirs(save_path+"/"+type_name[0]+"/shap_global")
 ```
 
-3. Loading Model Parameters and Data for SHAP Analysis.
+3. Loading Model Parameters and Data for SHAP Analysis. specifically, the `swiss_feature_all.xlsx` is placed in figshare，other TrEMBL data can also processing and be inferred  in the same way.
 
 ```python
 # Load PyTorch model parameters
 model_parameters = torch.load(os.path.join(open_path, model_parameters_name))
 
-# Load the hyperparameters of the model
+# Load model optimization results
 model_optimization_results = pd.read_excel(os.path.join(open_path, model_optimization_results_name))
 
-# Load training and testing dataset
-swiss_data = pd.read_excel(os.path.join(open_path, 'swiss_ESM2_feature_all.xlsx'), index_col=gene_ID)
-ori_homology_data = pd.read_excel(os.path.join(open_path, 'oringinal_homology_ESM2_feature_all.xlsx'), index_col=gene_ID)
-non_homology_data = pd.read_excel(os.path.join(open_path, 'non_homology_ESM2_feature_all.xlsx'), index_col=gene_ID)
+# Load training data
+swiss_data = pd.read_excel(os.path.join(open_path, 'swiss_feature_all.xlsx'),index_col=gene_ID)
 
-# Load the label mapping dictionary
+# Load label mapping dictionary
 label2number = pd.read_excel(os.path.join(open_path, label2number_name))
 ```
 
-4. Preprocessing Training and Testing Datasets and Model Setup for SHAP Analysis.
+4. Preprocessing  Datasets and Model Setup for SHAP Analysis.
 
 ```python
-# Preprocess the training and testing datasets
+# Preprocess training data
 X_train = swiss_data.drop(columns=up_down_name)
 y_train = swiss_data[up_down_name]
-X_test = ori_homology_data.drop columns=(up_down_name)
-y_test = ori_homology_data[up_down_name]
-X_non_test = non_homology_data.drop(columns=up_down_name)
-y_non_test = non_homology_data[up_down_name]
 
-# Model
+
+# Create a PyTorch model
 input_dim = X_train.shape[1]
-device = torch.device("cuda" if torch.cuda.is available() else "cpu")
-
-# Load the model
-load_model = ClassificationDNN(input_dim=input_dim, hidden_dim=model_optimization_results.loc[0,'Best hidden_dim'],
-                             num_classes=len(label2number.index)).to(device)
-load_model.load_state_dict(torch.load(os.path.join(open_path,model_parameters_name))
-load_model.eval()  # Set the model to evaluation mode
-
-# Get model predictions (predicted labels)
-X_train_scale_hat, X_train_scale_probabilities = load_model.model_infer(X_train, device)
-
-# Convert predicted labels using a label mapping dictionary
-label_dict = dict(zip(label2number['EncodedLabel'], label2number['OriginalLabel']))
-X_train_scale_hat = [label_dict[i] for i in X_train_scale_hat]
-
-X_test_scale_hat, X_test_scale_probabilities = load_model.model_infer(X_test, device)
-X_test_scale_hat = [label_dict[i] for i in X_test_scale_hat]
-
-X_non_test_scale_hat, X_non_test_scale_probabilities = load_model.model_infer(X_non_test, device)
-X_non_test_scale_hat = [label_dict[i] for i in X_non_test_scale_hat]
-
-# Convert the predicted results to DataFrames
-X_train_scale_hat_df = pd.DataFrame(X_train_scale_hat, columns=["predict"], index=X_train.index)
-X_test_scale_hat_df = pd.DataFrame(X_test_scale_hat, columns=["predict"], index=X_test.index)
-X_non_test_scale_hat_df = pd.DataFrame(X_non_test_scale_hat, columns=["predict"], index=X_non_test.index)
-```
-
-5. Perform Deep SHAP Analysis on the Training, Testing, and Non-Testing Sets and Save SHAP Values
-
-```python
-# Perform local analysis of the PyTorch-based DNN model on the training set using Deep SHAP
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-X_train_tensor = torch.Tensor(X_train.values).to(device)
-X_test_tensor = torch.Tensor(X_test.values).to(device)
-X_non_test_tensor = torch.Tensor(X_non_test.values).to(device)
+load_model=ClassificationDNN(input_dim=input_dim, hidden_dim=model_optimization_results.loc[0,'Best hidden_dim'],
+                             num_classes=len(label2number.index)).to(device)
+load_model.load_state_dict(torch.load(os.path.join(open_path,model_parameters_name)))
+load_model.eval()  
+
+# Predict using the model
+X_train_scale_hat, X_train_scale_probabilities = load_model.model_infer(X_train, device)
+
+# Convert predicted labels
+label_dict = dict(zip(label2number['EncodedLabel'], label2number['OriginalLabel']))
+X_train_scale_hat = [label_dict[i] for i in X_train_scale_hat]
+X_train_scale_hat_df = pd.DataFrame(X_train_scale_hat, columns=["predict"],index=X_train.index)
+```
+
+5. Perform Deep SHAP Analysis on datasets and Save SHAP Values
+
+```python
+# Initialize SHAP DeepExplainer
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+X_train_tensor=torch.Tensor(X_train.values).to(device)
 
 # Set a random seed
 np.random.seed(0)
@@ -173,46 +151,27 @@ background_index = np.random.choice(X_train.shape[0], size=200, replace=False)
 # Reset the random seed
 np.random.seed(None)
 
-background_data = X_train.iloc[background_index].values  # Convert DataFrame to a numpy array
-background_data_tensor = torch.Tensor(background_data).to(device)
+background_data = X_train.iloc[background_index].values  # Convert DataFrame to numpy array
+background_data_tensor=torch.Tensor(background_data).to(device)
 
 explainer = shap.DeepExplainer(load_model, background_data_tensor)
 
-# Conduct Deep SHAP analysis on the training set
-train = DeepSHAPValueConduct(explainer, X_train, X_train_tensor, y_train)
-shap_train_values = train.shap_value_conduct()
+# Analyze the training dataset using Deep SHAP
+train = DeepSHAPValueConduct(explainer,X_train, X_train_tensor,y_train)
+shap_train_values= train.shap_value_conduct()
 
-# Conduct Deep SHAP analysis on the testing set
-test = DeepSHAPValueConduct(explainer, X_test, X_test_tensor, y_test)
-shap_test_values = test.shap_value_conduct()
-
-# Conduct Deep SHAP analysis on the non-testing set
-non_test = DeepSHAPValueConduct(explainer, X_non_test, X_non_test_tensor, y_non_test)
-shap_non_test_values = non_test.shap_value_conduct()
-
-# Save the SHAP values to files
-X_shap_train_save = train.Shapley_value_save(X_train_scale_hat_df, type_class=list(label2number.loc[:, 'OriginalLabel']),
-                                            save_path=os.path.join(save_path, cancer_name[0], "shap_global/"),
-                                            file_name="train", gene_ID=gene_ID)
-X_shap_test_save = test.Shapley_value_save(X_test_scale_hat_df, type_class=list(label2number.loc[:, 'OriginalLabel']),
-                                          save_path=os.path.join(save_path, cancer_name[0], "shap_global/"),
-                                          file_name="test", gene_ID=gene_ID)
-X_shap_non_test_save = non_test.Shapley_value_save(X_non_test_scale_hat_df,
-                                                  type_class=list(label2number.loc[:, 'OriginalLabel']),
-                                                  save_path=os.path.join(save_path, cancer_name[0], "shap_global/"),
-                                                  file_name="non_test", gene_ID=gene_ID)
+X_shap_train_save=train.Shapley_value_save(X_train_scale_hat_df,type_class=list(label2number.loc[:,'OriginalLabel']),
+                                    save_path=save_path+"/"+type_name[0]+"/"+"shap_global/", file_name="swiss",gene_ID=gene_ID)
 ```
 
 6. Calculate Baseline Prediction Probability and Save Results as an Excel File.
 
 ```python
-# Calculate the baseline prediction probability
+# Calculate base prediction probabilities
 base_value = explainer.expected_value
-
-# Convert to a DataFrame
 result_df = pd.DataFrame({'base_value': base_value,
-                          'classes': list(label2number.loc[:, 'OriginalLabel'])})
+                          'classes': list(label2number.loc[:,'OriginalLabel'])})
 
-# Save as an Excel file
-result_df.to_excel(os.path.join(save_path, cancer_name[0], "shap_global/SHAP_base_probablity.xlsx"), index=False)
+# Save the base probabilities to an Excel file
+result_df.to_excel(save_path + "/" + type_name[0] + "/" + "shap_global/SHAP_base_probablity.xlsx", index=False)
 ```

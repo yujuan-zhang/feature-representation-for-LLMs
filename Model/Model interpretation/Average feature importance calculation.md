@@ -13,19 +13,13 @@ from sklearn.preprocessing import MinMaxScaler
 from protloc_mex1.SHAP_plus import FeaturePlot
 
 ## Global Configuration
-open_path = r"D:\Working\Team\Luo_Zeyu\Sub_articles\BIB\Revision_processing\11_shap_interpretable\2_dl_importance\data\in"
-save_path = r"D:\Working\Team\Luo_Zeyu\Sub_articles\BIB\Revision_processing\11_shap_interpretable\2_dl_importance\output\swiss"
-
+open_path = r"<The data storage path for SHAP or IG execution results>"
+save_path = r"<your save path>"
 type_name = ['swiss']
 gene_ID = "Entry"
 depleted_ID_len = 2  ## Discard columns only in the last few columns
-data_input_name = ['train', 'test']
-feature_single_import_c = False
-
-## Function Area
 
 ## Workspace
-
 if os.path.isdir(save_path + "/" + type_name[0]):
     pass
 else:
@@ -38,7 +32,7 @@ names = list(map(lambda x: pattern.sub('', x), names))
 2. Calculating and Saving Deep SHAP Importance Summaries
 
 ```python
-# Read the 'SHAP_base_probablity.xlsx' file
+# Reading the data of ID or SHAP results.
 type_data_all = list(map(lambda x: pd.read_csv(open_path + "/" + x + ".csv", header=0, sep=",", index_col=gene_ID), names))
 type_data_all = dict(zip(names, type_data_all))
 
@@ -59,9 +53,7 @@ SHAP_importance_sum_claulate_outcome['shap_feature_importance'].to_csv(
 # Save feature weights one by one
 i_data_name = str(type_name)
 
-data_shap_importance_T = SHAP_importance_sum_claulate_outcome['shap_feature_importance_T'].loc[
-    all_data.str_contain(i_data_name, list(SHAP_importance_sum_claulate_outcome['shap_feature_importance_T'].index))
-]
+data_shap_importance_T = SHAP_importance_sum_claulate_outcome['shap_feature_importance_T'].loc[all_data.str_contain(i_data_name,list(SHAP_importance_sum_claulate_outcome['shap_feature_importance_T'].index))]
 data_shap_importance_T.to_csv(
     save_path + "/" + type_name[0] + "/shap_feature_" + i_data_name + "_importance_T.csv", index_label='cluster_name')
 ```

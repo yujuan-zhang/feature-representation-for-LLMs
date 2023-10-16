@@ -4,9 +4,9 @@ We defines a set of functions for processing and visualizing data from CSV files
 
 **process_data(keyword)**: This function filters and loads CSV files containing a specific keyword, setting the 'cluster_name' column as the index.
 
-**df_col_choose(df_input, pattern_input)**: This function selects columns from the input DataFrame based on specified patterns and returns a dictionary of separated DataFrames.
+**df_col_choose(df_input, pattern_input)**: This function selects columns from the input specified subcellular localization type.
 
-**extract_index(dict_input, extract)**: It extracts specific rows from DataFrames in the input dictionary and combines them into a single DataFrame.
+**extract_index(dict_input, extract)**: It extracts specific rows from specified subcellular localization type.
 
 **adjust_scales_with_log(x)**: A function for scaling values using a log transformation.
 
@@ -135,47 +135,36 @@ def compare_with_groups_and_log_scale(df, compare_group, group_indices, filename
 
 #### 2. Data Processing and Visualization for ESM2 Features
 
-This code performs data processing and visualization for ESM2 features using SHAP values. It loads data from CSV files, extracts `"Mitochondrion"`, and generates box plots with log-scaled values to compare different groups. The results are saved in the output directory.
+This code performs data processing and visualization for ESM2 features using SHAP values. It loads data from "shap_feature_swiss_importance_T.csv" data produced by the "Summary of Data Processing and Visualization Functions" step, extracts `"Mitochondrion"`, and generates box plots with log-scaled values to compare different groups. The results are saved in the output directory.  For other datasets, please follow the steps(`SHAP` or `IG` step -> `Summary of Data Processing and Visualization Functions` step).
 
 ```python
-##全局调参
-open_path=r"D:\desktop\Scis_code\Deep Dive into ESM2\shap_output_analyse\shap_boxplot\data\in"
-save_path=r"D:\desktop\Scis_code\Deep Dive into ESM2\shap_output_analyse\shap_boxplot\output"
-
-
+##Import necessary libraries and classes
 import os
 import pandas as pd
 import numpy as np
 import re
 from protloc_mex1.SHAP_plus import SHAP_importance_sum
 import matplotlib.pyplot as plt
-names=os.listdir(open_path)
-
-##工作区域
-df_train = process_data('train')
-df_test = process_data('test')
-df_independent_test = process_data('test_independent')
-
-# 定义列名模式列表
-patterns = ['ESM2_cls\d+','ESM2_segment0_mean\d+', 'ESM2_mean\d+','ESM2_eos\d+', ]
-dict_train=df_col_choose(df_input=df_train ,pattern_input=patterns)   
-dict_test=df_col_choose(df_test ,patterns)   
-dict_independent_test = df_col_choose(df_independent_test ,patterns) 
-extract = "Mitochondrion"
-
-df_train=extract_index(dict_train,extract)
-df_test=extract_index(dict_test,extract)
-df_independent_test=extract_index(dict_independent_test,extract)
-
 import seaborn as sns
 from scipy.stats import mannwhitneyu
 
+##Global Hyperparameter Tuning
+open_path=r"<The path to the results of the Average Feature Importance Calculation steps>"
+save_path=r"<your save path>"
+names=os.listdir(open_path)
+
+##Work space
+df_train = process_data('swiss')
+
+# Define Column Name Pattern List
+patterns = ['ESM2_cls\d+','ESM2_segment0_mean\d+', 'ESM2_mean\d+','ESM2_eos\d+', ]
+dict_train=df_col_choose(df_input=df_train ,pattern_input=patterns)   
+extract = "Mitochondrion" # The required subcellular localization type.
+
+df_train=extract_index(dict_train,extract)
+
 compare_with_groups_and_log_scale(df_train, 'ESM2_eos', 
-        ['ESM2_cls', 'ESM2_segment0_mean', 'ESM2_mean','ESM2_eos' ],f'train_{extract}_boxplot',save_path,(10,10))
-compare_with_groups_and_log_scale(df_test, 'ESM2_eos', 
-        ['ESM2_cls', 'ESM2_segment0_mean', 'ESM2_mean','ESM2_eos' ],f'test_{extract}_boxplot',save_path,(10,10))
-compare_with_groups_and_log_scale(df_independent_test, 'ESM2_eos', 
-        ['ESM2_cls', 'ESM2_segment0_mean', 'ESM2_mean','ESM2_eos' ],f'test_independent_{extract}_boxplot',save_path,(10,10))
+        ['ESM2_cls', 'ESM2_segment0_mean', 'ESM2_mean','ESM2_eos' ],f'swiss_{extract}_boxplot',save_path,(10,10))
 ```
 
 

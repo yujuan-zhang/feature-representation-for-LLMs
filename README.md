@@ -70,7 +70,6 @@ z_dim = 18
 save_dir = './Model/VAE model'  # Directory to save the model parameters
 
 # # Randomly generate a dataset for inference
-
 X_inference = pd.DataFrame(np.random.randn(100, input_dim))
 
 # Convert to PyTorch datasets
@@ -149,15 +148,14 @@ Based on this, we have performed individual normalizations for different feature
            return scaler
    
    save_dir = "./Model/Stand_scaler_model"
-   
    save_path = "<YOUR_PATH_HERE>"
    train_data = pd.read_csv(os.path.join(save_dir, 'feature_all_train.csv'))‘
-   
    scaler_filepath =save_dir+ '/feature_all_scaler.joblib'
+   
    ##load model pt (mean and std)
    feature_all_scaler = SimpleScaler.load(scaler_filepath)
    ```
-
+   
 2. Load the new inference dataset to be normalized, ensuring that its features exactly match those of the training set.
 
    ```python
@@ -208,11 +206,8 @@ For inference using the trained DNN and RF models, please refer to the following
    
    save_dir = './Model/ESM2_feature_all/RF_model_param'
    save_path = "<YOUR_PATH_HERE>"
-   
    model=load(os.path.join(save_dir,'ESM2_feature_allhuman1.2.2.pkl'))
-   
    train_data = pd.read_csv(os.path.join(save_dir, 'train_ESM2_feature_all_RF.csv'))
-   
    inference_data=pd.read_excel(os.path.join("./Model/ESM2_feature_all/DNN_model_param",'ESM2_combined_feature_inference_test.xlsx'))
    
    inference_data.set_index('ID',inplace=True)
@@ -228,9 +223,8 @@ For inference using the trained DNN and RF models, please refer to the following
    
    #Adjust the order of columns to match that of the training set
    X_inference_data = X_inference_data.reindex(columns=train_data.columns)
-   
    ```
-
+   
 2. Model Prediction and Classification Result Evaluation
 
    ```python
@@ -238,10 +232,9 @@ For inference using the trained DNN and RF models, please refer to the following
    X_inference_data_hat = pd.DataFrame(model.predict(np.array(X_inference_data)), columns=["predict"], index=X_inference_data.index)
    
    # Create ClassifierEvaluator object
-   
    test_classification = ClassifierEvaluator(model.predict_proba(X_inference_data), y_inference_data, X_inference_data_hat, model.classes_)
-   # Save evaluation results
    
+   # Save evaluation results
    test_classification.classification_report_conduct(save_path,'/your_file_name')
    
    # Plot evaluation charts
@@ -315,18 +308,13 @@ class ClassificationDNN(nn.Module):
 ```python
 # Configuration
 input_dim = 3152 ##the dim of 'feature all' 
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
 num_classes=10
-
 save_dir = "./Model/ESM2_feature_all/DNN_model_param"
-
 save_path = "<YOUR_PATH_HERE>"
-# Load the model
+
 # Load parameters
 load_model=ClassificationDNN(input_dim=input_dim, hidden_dim=802,num_classes=num_classes).to(device)
-
 load_model.load_state_dict(torch.load(os.path.join(save_dir,'model_parameters.pt')))
 load_model.eval()  # Set the model to evaluation mode
 ```
@@ -335,7 +323,6 @@ load_model.eval()  # Set the model to evaluation mode
 
 ```python
 train_data = pd.read_excel(os.path.join(save_dir, 'train_ESM2_feature_all_DNN.xlsx'))
-
 inference_data=pd.read_excel(os.path.join(save_dir,'ESM2_combined_feature_inference_test.xlsx'))
 
 inference_data.set_index('ID',inplace=True)
@@ -360,31 +347,23 @@ label_mapping=pd.read_excel(os.path.join(save_dir,'label2number.xlsx'))
 
 # Convert DataFrame to Dictionary
 label_dict = dict(zip(label_mapping['EncodedLabel'], label_mapping['OriginalLabel']))
-
 X_inference_data_hat,X_inference_data_probabilities=load_model.model_infer(X_inference_data,device=device)
-
 X_inference_data_hat = [label_dict[i] for i in X_inference_data_hat]
-
 
 # Build classifier and perform evaluation
 
 # Convert the prediction results to DataFrame
-
 X_inference_data_hat = pd.DataFrame(X_inference_data_hat, columns=["predict"],index=X_inference_data.index)
-
 classes=label_mapping.loc[:,'OriginalLabel'].values
 
 # Create ClassifierEvaluator object
-
 test_classification = ClassifierEvaluator(X_inference_data_probabilities, y_inference_data, X_inference_data_hat, classes)
 
 # Save evaluation results
-
 test_classification.classification_report_conduct(save_path,'/your_file_name')
 
 # Plot evaluation charts
 test_classification.classification_evaluate_plot(save_path,'/your_file_name',(10,10))
-
 ```
 
 ### DNN_Liner model
@@ -462,18 +441,16 @@ df_each_label = process_dict_for_mcc(
         pred_col="predict"  # model predict label column
     )
 
-
 # save_path = '.'  # please define your save path
 with pd.ExcelWriter(os.path.join(save_path, "mcc_results.xlsx")) as writer:
     if df_each_label is not None:
         df_each_label.to_excel(writer, sheet_name="each_label", i
                                ndex=False)
-
 ```
 
 ## model interpretation 
 
-We employed three interpretability methods, DeepExplainer, Integrated Gradient, and Tree SHAP. Using these interpretability methods, we calculated feature importance. For details on the calculation methods and further feature importance visualization, please refer to the [methods](https://github.com/yujuan-zhang/feature-representation-for-LLMs/tree/main/Model/Model%20interpretation).
+We employed three interpretability methods, DeepExplainer, Integrated Gradient, and Tree SHAP. Using these interpretability methods, we calculated feature importance. For details on the calculation methods and further feature importance visualization, please refer to the [methods](https://github.com/yujuan-zhang/feature-representation-for-LLMs/tree/main/Model/Model%20interpretation). The running steps for these methods are: `SHAP` or `IG` step -> `Average feature importance calculation` step -> `Swarm plot visualization` step.
 
 ## Citation
 
