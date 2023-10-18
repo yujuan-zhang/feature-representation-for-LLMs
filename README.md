@@ -23,7 +23,7 @@ The raw data regarding train, test, and independent sets have been placed in the
 
 the final processed data and feature representations generated during the process are already placed on figshare(DOI:10.6084/m9.figshare.24312292), If you have any questions, please contact the "Author 1: Zeyu Luo Email: [1024226968@qq.com]" for access.
 
-Additional, original data (train, test, independent test) and Table S10 related to this project are available on figshare(DOI:10.6084/m9.figshare.24312292).
+Additional, original data (train, test, independent test) and the average importance feature data (Table S10) related to this project are available on figshare(DOI:10.6084/m9.figshare.24312292).
 
 ## Non-homologous division process
 
@@ -368,7 +368,7 @@ test_classification.classification_evaluate_plot(save_path,'/your_file_name',(10
 
 ### DNN_Liner model
 
-DNN_Liner model training detail in [methods](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/DNN%20Liner/DNN_Line%20model%20training.md) ,and completed trained model are placed in corresponding file.
+DNN_Liner model training detail in [methods](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/DNN%20Liner/DNN_Line%20model%20training.md) ,and completed trained model are placed in corresponding file. The DNN_Liner model does not conduct feature normalization and has not used data augmentation. This is a common practice when fine-tuning the output layer of large models.
 
 ### MCC five-fold validation
 
@@ -459,10 +459,6 @@ For those interested in citing our work related to this project, please note tha
 If you are using the ESM-2 model in your project or research, please cite the original work by the authors:
 Lin, Z., et al., Evolutionary-scale prediction of atomic level protein structure with a language model. bioRxiv, 2022: p. 2022.07.20.500902.
 
-
-
 ## Acknowledgments
 
-we are acknowledge the contributions of the open-source community and the
-
-developers of the Python libraries used in this study.
+we are acknowledge the contributions of the open-source community and the developers of the Python libraries used in this study.
