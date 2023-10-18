@@ -23,7 +23,7 @@ The raw data regarding train, test, and independent sets have been placed in the
 
 the final processed data and feature representations generated during the process are already placed on figshare(DOI:10.6084/m9.figshare.24312292), If you have any questions, please contact the "Author 1: Zeyu Luo Email: [1024226968@qq.com]" for access.
 
-Additional, original data (train, test, independent test) and the average importance feature data (Table S10) related to this project are available on figshare(DOI:10.6084/m9.figshare.24312292).
+Additional, the average importance feature data (Table S10) related to this project are available on figshare(DOI:10.6084/m9.figshare.24312292).
 
 ## Non-homologous division process
 
