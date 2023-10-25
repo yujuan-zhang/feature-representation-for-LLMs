@@ -120,7 +120,7 @@
    df.to_excel(save_path, index=False)
    ```
 
-2. Remove protein sequences from the independent test set that exhibit some degree homology with the custom database, to obtain a set of proteins with relatively lower homology. In this experiment, a Bitscore > 50 is utilized as the threshold for filtering high-homology sequences.
+2. Remove protein sequences from the independent test set that exhibit some degree homology with the local homologous comparison datasets, to obtain a set of proteins with relatively lower homology. In this experiment, a Bitscore > 50 is utilized as the threshold for filtering high-homology sequences.
 
    ```python
    import pandas as pd
