@@ -1,4 +1,4 @@
-1. Define the DNN (MLP) Model (The model is the same as the previous DNN model).
+1. Define the DNN Model (The model is the same as the previous DNN model).
 
 ```python
 ## Define the DNN model

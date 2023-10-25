@@ -135,7 +135,7 @@ def compare_with_groups_and_log_scale(df, compare_group, group_indices, filename
 
 #### 2. Data Processing and Visualization for ESM2 Features
 
-This code performs data processing and visualization for ESM2 features using SHAP values. It loads data from "shap_feature_swiss_importance_T.csv" data produced by the "Summary of Data Processing and Visualization Functions" step, extracts `"Mitochondrion"`, and generates box plots with log-scaled values to compare different groups. The results are saved in the output directory.  For other datasets, please follow the steps(`SHAP` or `IG` step -> `Summary of Data Processing and Visualization Functions` step).
+This code performs data processing and visualization for ESM2 features using SHAP values. It loads data from "shap_feature_swiss_importance_T.csv" data produced by the "Summary of Data Processing and Visualization Functions" step, extracts `"Mitochondrion"`, and generates box plots with log-scaled values to compare different groups. The results are saved in the output directory.  For other datasets (TrEMBL datasets), please follow the steps(`SHAP` or `IG` step -> `Summary of Data Processing and Visualization Functions` step).
 
 ```python
 ##Import necessary libraries and classes
@@ -166,12 +166,3 @@ df_train=extract_index(dict_train,extract)
 compare_with_groups_and_log_scale(df_train, 'ESM2_eos', 
         ['ESM2_cls', 'ESM2_segment0_mean', 'ESM2_mean','ESM2_eos' ],f'swiss_{extract}_boxplot',save_path,(10,10))
 ```
-
-
-
-
-
-
-
-
-
