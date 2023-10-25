@@ -8,7 +8,7 @@
 
 2. Install Software
 
-   Install the downloaded software on a non-system drive, for example, `E:\blast`.
+   Install the downloaded software on a non-system default, for example, `E:\blast`.
    Upon completion of the installation, you will see two sub-folders: `bin` (program directory) and `doc` (documentation directory).
 
 3. Set Environment Variables
@@ -64,23 +64,20 @@
                fasta_file.write(f">{entry}\n{sequence}\n")
    ```
 
-   
-
-2. Create a Blast Protein Database from Local Training Set Protein Sequence Data (Execute the following tasks in the Terminal).
+2. Based on comparison protein sequence data, create a local homologous comparison datasets, specifically，in our experiment，we set swiss data （combine swiss train and test）as local homologous comparison datasets. please execute the following tasks in the terminal.
 
    ```
    makeblastdb -in "<your_train_data_path/train_data.fasta>" -dbtype prot -out "<Blast_database_path/Train_protein_seq_database>"
    # Note: The paths provided above should not contain any spaces!
    ```
 
-3. Perform Homology Analysis of Test Set and Independent Test Set Protein Sequences against the Custom Database (Execute the following tasks in the Terminal).
+3. Perform homology analysis of Independent test set protein sequences against the local homologous comparison datasets (Execute the following tasks in the Terminal).
 
    ```
    blastp -query "<your_test_data_path/test_data.fasta>" -db "<Blast_database_path/Train_protein_seq_database>" -outfmt 5 -out "<your_save_path/test_data_blast_results.xml>"
    # Note: The paths provided above should not contain any spaces!
    ```
 
-   The method for conducting homology analysis of the independent test set protein sequences against the custom database is similar to the code provided above.
 
 ### Excluding Proteins with High Homology
 
@@ -123,9 +120,7 @@
    df.to_excel(save_path, index=False)
    ```
 
-   The method of obtaining homology analysis information between the independent test set and the protein sequences in the self-constructed database is similar to the above method.
-
-2. Remove protein sequences from the test set and independent test set that exhibit high homology with the custom database, to obtain a set of proteins with relatively lower homology. In this experiment, a Bitscore > 50 is utilized as the threshold for filtering high-homology sequences.
+2. Remove protein sequences from the independent test set that exhibit some degree homology with the custom database, to obtain a set of proteins with relatively lower homology. In this experiment, a Bitscore > 50 is utilized as the threshold for filtering high-homology sequences.
 
    ```python
    import pandas as pd
@@ -149,5 +144,3 @@
    output_excel_path = '<your_save_path/filtered_low_homology_test_data.xlsx>'
    filtered_low_homology_test_df.to_excel(output_excel_path, index=False)
    ```
-
-   The operation on the independent test set data is similar to the above.
