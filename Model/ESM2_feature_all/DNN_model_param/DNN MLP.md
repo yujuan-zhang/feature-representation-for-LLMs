@@ -146,10 +146,9 @@ In our paper, we have built a subcellular localization classification model base
    
    ```
 
-5. 开始进行模型训练，具体通过`optuna`进行，其中需要学习的超参数为`hidden_dim`和学习率`lr`，由于过程和优化目标与<Res-VAE训练细节>十分接近故这里不再详细解释。
-
-   This step is the model training process and the hyperparameter optimization. The hyperparameters to be learned are the hidden dimension `hidden_dim` and the learning rate `lr`. Due to the similarity of the process and optimization objectives with Res-VAE, further details are not elaborated upon here.
-
+5. This step is the model training process and the hyperparameter optimization. The hyperparameters to be learned are the hidden dimension `hidden_dim` and the learning rate `lr`. Due to the similarity of the process and optimization objectives with [VAE training detail](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/VAE%20model/Res_VAE%20training%20detail.md
+   ), further details are not elaborated upon here.
+   
    ```python
    # Define an objective function to be minimized.
    
@@ -230,7 +229,7 @@ In our paper, we have built a subcellular localization classification model base
    # Print the result
    trial = study.best_trial
    ```
-
+   
 6. The optimal model, denoted as `best_model`, has its weight parameters saved. Additionally, some information about the optimal hyperparameters is also preserved. The optimal hyperparameters information for the 'feature all' DNN model are included at the end.
 
    ```python

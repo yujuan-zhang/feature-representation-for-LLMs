@@ -2,7 +2,8 @@
 
 RF model training incorporates various feature sets including 'cls', 'eos', 'pho', 'VAE_cls', 'segment0', 'AA_doc2vec', and 'feature all'. Each feature set is used to individually train an RF model. Specifically for the 'feature all' set, after combining all available features, feature selection is conducted based on their importance via the `sklearn.feature_selection` module during hyperparameter optimization using the `optuna` package. Ultimately, only 3152 features are retained. The specific training steps are as follows:
 
-1. For features except 'feature all', feature augmentation is initially performed using the `imblearn` package, with the particular algorithm details elaborated in <DNN模型训练细节>. Note that the features for the training set, test set, or inference data must be standardized as previously described.
+1. For features except 'feature all', feature augmentation is initially performed using the `imblearn` package, with the particular algorithm details elaborated in [DNN training detrail](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/ESM2_feature_all/DNN_model_param/DNN%20MLP.md
+   ). Note that the features for the training set, test set, or inference data must be standardized as previously described.
 
    ```python
    from imblearn.over_sampling import SMOTE
@@ -25,7 +26,8 @@ RF model training incorporates various feature sets including 'cls', 'eos', 'pho
 
 2. We employ the `optuna` package to conduct 10-fold `StratifiedKFold` cross-grid search for optimal hyperparameters. The objective for hyperparameter optimization is to maximize the average F1-score across all folds. The hyperparameters under consideration include the number of trees in the random forest `n_estimators`(ranging from 50 to 200), the maximum depth of the trees `max_depth` (ranging from 1 to 30), the number of features randomly chosen at each trees `max_features` ('sqrt' or 'log2'), and the minimum number of samples required to further split an internal node `min_samples_split` (ranging from 2 to 50).
 
-   For details on `optuna` optimization techniques such as early pruning, please refer to <Res-VAE训练细节>.
+   For details on `optuna` optimization techniques such as early pruning, please refer to [VAE training detail](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/VAE%20model/Res_VAE%20training%20detail.md
+   ).
 
    ```python
    
@@ -103,7 +105,7 @@ RF model training incorporates various feature sets including 'cls', 'eos', 'pho
 
    
 
-4. For the 'feature all' attributes, the training process is very similar, with the only difference being the need to first use the `SelectFromModel` function from the `sklearn.feature_selection` module to perform feature selection based on feature importance. Specifically, we train an RF model to calculate the contribution of each feature to classification prediction. For the related computational methods, please refer to the <RF模型重要性特征计算说明文件>.
+4. For the 'feature all' attributes, the training process is very similar, with the only difference being the need to first use the `SelectFromModel` function from the `sklearn.feature_selection` module to perform feature selection based on feature importance. Specifically, we train an RF model to calculate the contribution of each feature to classification prediction. For the related computational methods, please refer to our under-reviewed article which predicted to disclosure in several weeks .
 
    ```python
    X_train_scale = 'Assume this is your 6418-dimensional, standardized all feature training data.'
