@@ -448,9 +448,13 @@ with pd.ExcelWriter(os.path.join(save_path, "mcc_results.xlsx")) as writer:
                                ndex=False)
 ```
 
-## model interpretation 
+## Model Interpretation 
 
 We employed three interpretability methods, DeepExplainer, Integrated Gradient, and Tree SHAP. Using these interpretability methods, we calculated feature importance. For details on the calculation methods and further feature importance visualization, please refer to the [methods](https://github.com/yujuan-zhang/feature-representation-for-LLMs/tree/main/Model/Model%20interpretation). The running steps for these methods are: `SHAP` or `IG` step -> `Average feature importance calculation` step -> `Swarm plot visualization` step.
+
+## Comparison model (UDSMProt, Doc2vec model, Deeploc2.0)
+
+In this study, we employed UDSMProt, Doc2vec models (sequence2_doc2vec and sequence3_doc2vec), as well as Deeploc2.0 for comparative purposes with ESM2's DNN_Liner, MLP, and RF. For the construction methods of these models, please refer to Supplementary Document 1 of the article. If you require access to the relevant source code, please contact the authors.
 
 ## Citation
 
