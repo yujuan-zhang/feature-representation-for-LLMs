@@ -196,7 +196,7 @@ For inference using the trained DNN and RF models, please refer to the following
 
 **RF model for inference**
 
-1. load RF model,`train_data` (also used for check if the inference data feature match corresponding model) and `inference_data`, we also choose 'feature all' model and corresponding train_data for demonstrate and place in `./Model/ESM2_feature_all/RF_model_param`, other type of feature train data with their model can be found in figshare(DOI: 10.6084/m9.figshare.24312292), if you have any problem, communicate to author for acquired . Please note that the RF model is a complete `scikit-learn` model. It is crucial to ensure that your `scikit-learn` version is compatible with ours. The version of the `scikit-learn` package is indicated in the model filename as `1.2.2`. Specifically, for RF model training and inference data (include Swiss_normalized and original_TrEMBL_normallized) are placed on figshare(DOI:10.6084/m9.figshare.24312292). Note that the non_homology version can divided from original_TrEMBL_normallized based on protein ID.
+1. load RF model,`train_data` (also used for check if the inference data feature match corresponding model) and `inference_data`, we also choose 'feature all' model and corresponding train_data for demonstrate and place in `./Model/ESM2_feature_all/RF_model_param`, other type of feature train data with their model can be found in figshare(DOI: 10.6084/m9.figshare.24312292), if you have any problem, communicate to author for acquired . Please note that the RF model is a complete `scikit-learn` model. It is crucial to ensure that your `scikit-learn` version is compatible with ours. The version of the `scikit-learn` package is indicated in the model filename as `1.2.2`. Specifically, for RF model training and inference data (include Swiss_normalized and original_TrEMBL_normalized) are placed on figshare(DOI:10.6084/m9.figshare.24312292). Note that the non_homology version can divided from original_TrEMBL_normalized based on protein ID.
 
    ```python
    import os
@@ -243,7 +243,7 @@ For inference using the trained DNN and RF models, please refer to the following
 
 **DNN model for inference**
 
-Specifically, for DNN (MLP) model training and inference data (include Swiss_normalized and original_TrEMBL_normallized) are placed on figshare(DOI:10.6084/m9.figshare.24312292). Note that the non_homology version can divided from original_TrEMBL_normallized based on protein ID.	
+Specifically, for DNN (MLP) model training and inference data (include Swiss_normalized and original_TrEMBL_normalized) are placed on figshare(DOI:10.6084/m9.figshare.24312292). Note that the non_homology version can divided from original_TrEMBL_normalized based on protein ID.	
 
 1. Define DNN model. 
 
