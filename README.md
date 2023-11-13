@@ -464,6 +464,28 @@ For those interested in citing our work related to this project, please note tha
 If you are using the ESM-2 model in your project or research, please cite the original work by the authors:
 Lin, Z., et al., Evolutionary-scale prediction of atomic level protein structure with a language model. bioRxiv, 2022: p. 2022.07.20.500902.
 
+For protloc_mex_X citation, plealse consider citing:
+
+```
+@misc{protloc_mex_X,
+    title={{protloc_mex_X}: based on ESM2 to autoly and rapidly extract feature representations from protein sequences},
+    author={Zeyu Luo, Rui Wang},
+    howpublished = {\url{https://pypi.org/project/protloc_mex_X/}},
+    year={2023}
+}
+```
+
+For protloc_mex1 citation, plealse consider citing:
+
+```
+@misc{protloc_mex1,
+    title={{protloc_mex1}: a comprehensive pipeline for the rapid development of subcellular localization prediction and model interpretation},
+    author={Zeyu Luo, Rui Wang},
+    howpublished = {\url{https://pypi.org/project/protloc-mex1/}},
+    year={2023}
+}
+```
+
 ## Acknowledgments
 
 we are acknowledge the contributions of the open-source community and the developers of the Python libraries used in this study.
