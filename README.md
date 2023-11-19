@@ -21,9 +21,11 @@ Your contributions, feedback, and suggestions are highly appreciated. If you enc
 
 The raw data regarding train, test, and independent sets have been placed in the "source_data" folder. To transform these raw sequences into corresponding feature representations, and to perform the train and test split, we will refer to the instructions provided in the mentioned Python toolkits (protloc-mex-x). 
 
-the final processed data and feature representations generated during the process are already placed on figshare(DOI:10.6084/m9.figshare.24312292), If you have any questions, please contact the "Author 1: Zeyu Luo Email: [1024226968@qq.com]" for access.
+the final processed data and feature representations generated during the process are already placed on figshare (DOI:10.6084/m9.figshare.24312292), If you have any questions, please contact the "Author 1: Zeyu Luo Email: [1024226968@qq.com]" for access.
 
 Additional, the average importance feature data (Table S10) related to this project are available on figshare(DOI:10.6084/m9.figshare.24312292).
+
+Figure S6-8 are also available on figshare(DOI:10.6084/m9.figshare.24312292).
 
 ## Non-homologous division process
 
@@ -489,4 +491,3 @@ For protloc_mex1 citation, plealse consider citing:
 ## Acknowledgments
 
 we are acknowledge the contributions of the open-source community and the developers of the Python libraries used in this study.
-
