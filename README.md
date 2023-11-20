@@ -459,6 +459,16 @@ We employed three interpretability methods, DeepExplainer, Integrated Gradient, 
 
 In this study, we employed UDSMProt, Doc2vec models (sequence2_doc2vec and sequence3_doc2vec), as well as Deeploc2.0 for comparative purposes with ESM2's DNN_Liner, MLP, and RF. For the construction methods of these models, please refer to Supplementary Document 1 of the article. If you require access to the relevant source code, please contact the authors.
 
+## Work Environment Setup
+
+To ensure that you can replicate our work from the paper accurately, we recommend using the following work environment:
+
+- Python version: 3.9.7
+- protloc-mex-x version: 0.0.17
+- protloc-mex1 version: 0.0.16
+
+Here are the details.
+
 ## Citation
 
 For those interested in citing our work related to this project, please note that our article is currently under review. We appreciate your interest and will provide citation details once the review process is complete.
