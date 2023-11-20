@@ -27,6 +27,16 @@ Additional, the average importance feature data (Table S10) related to this proj
 
 Figure S6-8 are also available on figshare(DOI:10.6084/m9.figshare.24312292).
 
+## Work Environment Setup
+
+To ensure that you can replicate our work from the paper accurately, we recommend using the following work environment:
+
+- Python version: 3.9.7
+- protloc-mex-x version: 0.0.17
+- protloc-mex1 version: 0.0.16
+
+Here are the [details](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Work%20Environment%20Setup/Setting%20Up%20the%20Work%20Environment.md).
+
 ## Non-homologous division process
 
 We performed a non-homologous operation, you can follow this [methods](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/Instructions%20for%20creating%20a%20dataset%20based%20on%20non-homologous%20division.md).
@@ -458,16 +468,6 @@ We employed three interpretability methods, DeepExplainer, Integrated Gradient, 
 ## Comparison model (UDSMProt, Doc2vec model, Deeploc2.0)
 
 In this study, we employed UDSMProt, Doc2vec models (sequence2_doc2vec and sequence3_doc2vec), as well as Deeploc2.0 for comparative purposes with ESM2's DNN_Liner, MLP, and RF. For the construction methods of these models, please refer to Supplementary Document 1 of the article. If you require access to the relevant source code, please contact the authors.
-
-## Work Environment Setup
-
-To ensure that you can replicate our work from the paper accurately, we recommend using the following work environment:
-
-- Python version: 3.9.7
-- protloc-mex-x version: 0.0.17
-- protloc-mex1 version: 0.0.16
-
-Here are the details.
 
 ## Citation
 
