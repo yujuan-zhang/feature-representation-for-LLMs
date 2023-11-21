@@ -4,8 +4,6 @@ To ensure that you can replicate our work from the paper accurately, we recommen
 - protloc-mex-x version: 0.0.17
 - protloc-mex1 version: 0.0.16
 
-Here are the [details](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Work%20Environment%20Setup/Setting%20Up%20the%20Work%20Environment.md).
-
 ### Work Environment Setup
 
 First, create a new conda environment. For Windows systems, it is recommended to use the conda Prompt for this task. On Linux systems, use the Terminal. (You can also modify the environment name as needed; here, we use "myenv" as an example):
