@@ -68,7 +68,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Define the VAE model
 class ContinuousResidualVAE(torch.nn.Module):
-# Model architecture is defined in the <VAE训练说明> step3, please copy it to replace this.
+# Model architecture is defined in the VAE training detail step3, please copy it to replace this.
 ```
 
 2. Loading a pre-trained VAE (Variational Autoencoder) model, and then use the model to reduce the ESM2 'cls' 1280-dimensional features to 18 dimensions. For inference on additional features (eos, pho), refer to the preceding method and independently train the VAE model.
@@ -79,7 +79,7 @@ input_dim = 1280  # the dimensionality of ESM2 'cls' feature representation is 1
 hidden_dim = 859  
 z_dim = 18  
 ## hidden_dim and z_dim are sourced from the architecture parameters file.
-save_dir = './Model/VAE model'  # Directory to save the model parameters
+save_dir = './Model/VAE model'  # Directory to the model parameters saved location.
 
 # # Randomly generate a dataset for inference
 X_inference = pd.DataFrame(np.random.randn(100, input_dim))
