@@ -11,15 +11,13 @@
 
 This repository presents the implementation of "Feature Representation for Latent Language Models (LLMs)" and includes two Python libraries, namely protloc-mex1 ([https://pypi.org/project/protloc-mex1/](https://pypi.org/project/protloc-mex1/)) and protloc-mex-x ([https://pypi.org/project/protloc-mex-x/](https://pypi.org/project/protloc-mex-x/)).
 
-For detailed usage instructions regarding these two Python libraries, please refer to the documentation available on PyPI.
-
-Please note that the article is currently under review, and as a result, some code examples have not been publicly disclosed yet. Once the review process is complete, we will make the relevant code examples available for public access.
+For detailed usage instructions regarding these two Python libraries, please refer to the documentation available on PyPI. 
 
 Your contributions, feedback, and suggestions are highly appreciated. If you encounter any issues or have questions, feel free to reach out to the authors via the provided email addresses. Thank you for your interest in our work!
 
 ## Dataset Available
 
-The raw data regarding train, test, and independent sets have been placed in the "source_data" folder. To transform these raw sequences into corresponding feature representations, and to perform the train and test split, we will refer to the instructions provided in the mentioned Python toolkits (protloc-mex-x). 
+The raw data regarding train, test and independent sets have been placed in the "source_data" folder. To transform these raw sequences into corresponding feature representations, we will refer to the instructions provided in the mentioned Python toolkits (protloc-mex-x). 
 
 the final processed data and feature representations generated during the process are already placed on figshare (DOI:10.6084/m9.figshare.24312292), If you have any questions, please contact the "Author 1: Zeyu Luo Email: [1024226968@qq.com]" for access.
 
@@ -33,13 +31,13 @@ To ensure that you can replicate our work from the paper accurately, we recommen
 
 - Python version: 3.9.7
 - protloc-mex-x version: 0.0.17
-- protloc-mex1 version: 0.0.16
+- protloc-mex1 version: 0.0.21
 
 Here are the [details](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Work%20Environment%20Setup/Setting%20Up%20the%20Work%20Environment.md).
 
 ## Non-homologous division process
 
-We performed a non-homologous operation, you can follow this [methods](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/Instructions%20for%20creating%20a%20dataset%20based%20on%20non-homologous%20division.md).
+We performed a non-homologous operation, which lead to create non-homologous independent datasets, you can follow this [methods](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/Instructions%20for%20creating%20a%20dataset%20based%20on%20non-homologous%20division.md).
 
 ## Model
 
@@ -196,7 +194,7 @@ Based on this, we have performed individual normalizations for different feature
    normalized_test_data = feature_all_scaler.transform(X_inference_data)
    ```
 
-Please note that here only the normalization of the 'feature all' feature dataset is demonstrated. If the dataset employs other features extracted using ESM2 such as 'cls', 'eos', 'pho', etc., it is necessary to use the corresponding normalization models and feature training sets in `./Model/Stand_scaler_model` (to ensure consistency of features between the dataset and training model). The subsequent processes with DNN and RF are similar, requiring pre-trained models and corresponding feature inputs. We do not aim to increase the complexity of utilizing our models; this approach is primarily adopted for a more systematic analysis of different feature extractions from ESM2. Our project is committed to providing foundational modular segments, allowing for flexible assembly and configuration of required task workflows by users.
+Please note that here only the normalization of the 'feature all' feature dataset is demonstrated. If the dataset employs other features extracted using ESM2 such as 'cls', 'eos', 'pho', etc., it is necessary to use the corresponding normalization models and feature training sets in `./Model/Stand_scaler_model` (to ensure consistency of features between the dataset and training model). The subsequent processes with DNN and RF are similar, requiring pre-trained models and corresponding feature inputs. We do not aim to increase the complexity of utilizing our models; this approach is primarily adopted for a more systematic analysis of different feature extractions from ESM2. Our project is committed to providing foundational modular segments, allowing for flexible assembly and configuration of required task workflows by users. 
 
 ### DNN/RF classification model
 
@@ -471,32 +469,11 @@ In this study, we employed UDSMProt, Doc2vec models (sequence2_doc2vec and seque
 
 ## Citation
 
-For those interested in citing our work related to this project, please note that our article is currently under review. We appreciate your interest and will provide citation details once the review process is complete.
+If our work has contributed to your research, we would greatly appreciate it if you could cite our work as follows. Please note that while this citation related to the article has been accepted for publication, it has not yet been formally published. We are pre-releasing the citation in accordance with the journal's policy, and this page will be updated once the article is officially online. Thank you for your understanding and support.
 
-If you are using the ESM-2 model in your project or research, please cite the original work by the authors:
-Lin, Z., et al., Evolutionary-scale prediction of atomic level protein structure with a language model. bioRxiv, 2022: p. 2022.07.20.500902.
+Zeyu Luo, et al. Interpretable Feature Extraction and Dimensionality Reduction in ESM2 for Protein Localization Prediction. Briefings in Bioinformatics. https://doi.org/10.1093/bib/bbad534.
 
-For protloc_mex_X citation, plealse consider citing:
-
-```
-@misc{protloc_mex_X,
-    title={{protloc_mex_X}: based on ESM2 to autoly and rapidly extract feature representations from protein sequences},
-    author={Zeyu Luo, Rui Wang},
-    howpublished = {\url{https://pypi.org/project/protloc_mex_X/}},
-    year={2023}
-}
-```
-
-For protloc_mex1 citation, plealse consider citing:
-
-```
-@misc{protloc_mex1,
-    title={{protloc_mex1}: a comprehensive pipeline for the rapid development of subcellular localization prediction and model interpretation},
-    author={Zeyu Luo, Rui Wang},
-    howpublished = {\url{https://pypi.org/project/protloc-mex1/}},
-    year={2023}
-}
-```
+If you are using the ESM-2 model in your project or research,  please refer to original work completed by the authors: Lin, Z., et al., Evolutionary-scale prediction of atomic level protein structure with a language model. bioRxiv, 2022: p. 2022.07.20.500902.
 
 ## Acknowledgments
 

@@ -2,9 +2,9 @@ To ensure that you can replicate our work from the paper accurately, we recommen
 
 - Python version: 3.9.7
 - protloc-mex-x version: 0.0.17
-- protloc-mex1 version: 0.0.16
+- protloc-mex1 version: 0.0.21
 
-### Work Environment Setup
+### Work Environment Setup 
 
 First, create a new conda environment. For Windows systems, it is recommended to use the conda Prompt for this task. On Linux systems, use the Terminal. (You can also modify the environment name as needed; here, we use "myenv" as an example):
 
@@ -20,10 +20,10 @@ conda activate myenvs
 
 Next, install a version of [PyTorch](https://pytorch.org/) that matches your device's configuration. If possible, we suggest using `"torch == 1.12.1"` to prevent potential compatibility issues.
 
-Then, use pip to install 'protloc_mex1' within this environment:
+Then, use pip to install 'protloc_mex1' within this environment: 
 
 ```bash
-pip install protloc_mex1==0.0.16
+pip install protloc_mex1==0.0.21
 ```
 
 Finally, use pip to install 'protloc_mex_X' within this environment:
