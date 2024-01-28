@@ -19,9 +19,11 @@ Your contributions, feedback, and suggestions are highly appreciated. If you enc
 
 The raw data regarding train, test and independent sets have been placed in the "source_data" folder. To transform these raw sequences into corresponding feature representations, we will refer to the instructions provided in the mentioned Python toolkits (protloc-mex-x). 
 
-the final processed data and feature representations generated during the process are already placed on figshare (DOI:10.6084/m9.figshare.24312292), If you have any questions, please contact the "Author 1: Zeyu Luo Email: [1024226968@qq.com]" for access.
+the final processed data and feature representations generated during the process are already placed on [figshare](https://figshare.com/articles/dataset/feature-representation-for-LLMs/24312292) (DOI:10.6084/m9.figshare.24312292), If you have any questions, please contact the "Author 1: Zeyu Luo Email: [1024226968@qq.com]" for access.
 
 Additional, the average importance feature data (Table S10) related to this project are available on figshare(DOI:10.6084/m9.figshare.24312292).
+
+Figure S4 (eos) and Figure S5 (eos) are supplement for the Histogram plots and Scatter plots of feature eos in corresponding Figure S4 and Figure S5.
 
 Figure S6-8 are also available on figshare(DOI:10.6084/m9.figshare.24312292).
 
@@ -463,7 +465,7 @@ with pd.ExcelWriter(os.path.join(save_path, "mcc_results.xlsx")) as writer:
 
 We employed three interpretability methods, DeepExplainer, Integrated Gradient, and Tree SHAP. Using these interpretability methods, we calculated feature importance. For details on the calculation methods and further feature importance visualization, please refer to the [methods](https://github.com/yujuan-zhang/feature-representation-for-LLMs/tree/main/Model/Model%20interpretation). The running steps for these methods are: `SHAP` or `IG` step -> `Average feature importance calculation` step -> `Swarm plot visualization` step.
 
-Additionally, we presented Histogram plots and Scatter plots based on feature importance to measure the distribution of feature significance for overall prediction (summing across all subcellular types). This was specifically implemented in each feature by summing the average importance of feature for the prediction of all subcellular localization types, as represented in the <importance file>, to assess as each feature’s overall predictive importance. This differs from the swarm plot and the methodology in Table S8 (https://doi.org/10.1093/bib/bbad534), which calculates the average importance of all features for individual subcellular localization type. this represents a different approach and direction in explanatory analysis based on feature importance, 具体的实现步骤请参考<md>.
+Additionally, we presented Histogram plots and Scatter plots based on feature importance to measure the distribution of feature significance for overall prediction (summing across all subcellular types). This was specifically implemented in each feature by summing the average importance of feature for the prediction of all subcellular localization types, as represented in the [Methods of histgram and scatter plot](https://github.com/yujuan-zhang/feature-representation-for-LLMs/tree/main/Model/Model%20interpretation/Methods%20of%20histgram%20and%20scatter%20plot#methods-of-histgram-and-scatter-plot), to assess as each feature’s overall predictive importance. This differs from the swarm plot and the methodology in Table S8 (https://doi.org/10.1093/bib/bbad534), which calculates the average importance of all features for individual subcellular localization type. this represents a different approach and direction in explanatory analysis based on feature importance.
 
 Additionally, differing from the analysis involved in the swarm plot, our DNN model only includes RF_filter+MLP (with an input feature dimension of 3152), and we have also not considered conducting this analysis on non-homologous datasets and with different feature dimensions input-based model. This is primarily due to constraints related to the publication cycle and other time considerations. We encourage researchers to build upon our work and further explore interpretation studies on features extracted from different positional intervals or sites using large protein language models. We aim to maintain this Github project long-term, including the [figshare dataset](https://figshare.com/articles/dataset/feature-representation-for-LLMs/24312292), as a supplement to our research presented in the paper.
 
@@ -475,7 +477,7 @@ In this study, we employed UDSMProt, Doc2vec models (sequence2_doc2vec and seque
 
 If our work has contributed to your research, we would greatly appreciate it if you could cite our work as follows. Please note that while this citation related to the article has been accepted for publication, it has not yet been formally published. We are pre-releasing the citation in accordance with the journal's policy, and this page will be updated once the article is officially online. Thank you for your understanding and support.
 
-Zeyu Luo, et al. Interpretable Feature Extraction and Dimensionality Reduction in ESM2 for Protein Localization Prediction. Briefings in Bioinformatics. https://doi.org/10.1093/bib/bbad534.
+Zeyu Luo, Rui Wang, Yawen Sun, Junhao Liu, Zongqing Chen, Yu-Juan Zhang, Interpretable feature extraction and dimensionality reduction in ESM2 for protein localization prediction, *Briefings in Bioinformatics*, Volume 25, Issue 2, March 2024, bbad534, https://doi.org/10.1093/bib/bbad534.
 
 If you are using the ESM-2 model in your project or research,  please refer to original work completed by the authors: Lin, Z., et al., Evolutionary-scale prediction of atomic level protein structure with a language model. bioRxiv, 2022: p. 2022.07.20.500902.
 
