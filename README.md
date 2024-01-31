@@ -200,7 +200,7 @@ Please note that here only the normalization of the 'feature all' feature datase
 
 ### DNN/RF classification model
 
-For using downstream prediction model based on feature representation, we develop several DNN (MLP) and RF model for different feature representation construction and demonstrate how to use DNN model based on combined feature to inference and evaluate outcome.
+For using downstream prediction model based on feature representation, we develop several DNN and RF model for different feature representation construction and demonstrate how to use DNN model based on combined feature to inference and evaluate outcome.
 
 For the detail in training the DNN model and RF model refer to [DNN training detrail](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/ESM2_feature_all/DNN_model_param/DNN%20MLP.md) and [RF training detrail](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/ESM2_feature_all/RF_model_param/RF%20training%20detail.md).
 
@@ -255,7 +255,7 @@ For inference using the trained DNN and RF models, please refer to the following
 
 **DNN model for inference**
 
-Specifically, for DNN (MLP) model training and inference data (include Swiss_normalized and original_TrEMBL_normalized) are placed on figshare(DOI:10.6084/m9.figshare.24312292). Note that the non_homology version can divided from original_TrEMBL_normalized based on protein ID.	
+Specifically, for DNN (MLP+RF_filter) model training and inference data (include Swiss_normalized and original_TrEMBL_normalized) are placed on figshare(DOI:10.6084/m9.figshare.24312292). Note that the non_homology version can divided from original_TrEMBL_normalized based on protein ID.The DNN  (MLP+RF_filter) model using feature_all as input is saved in './Model/ESM2_feature_all/DNN_model_param'.
 
 1. Define DNN model. 
 
@@ -467,7 +467,7 @@ We employed three interpretability methods, DeepExplainer, Integrated Gradient, 
 
 Additionally, we presented Histogram plots and Scatter plots based on feature importance to measure the distribution of feature significance for overall prediction (summing across all subcellular types). This was specifically implemented in each feature by summing the average importance of feature for the prediction of all subcellular localization types, as represented in the [Methods of histgram and scatter plot](https://github.com/yujuan-zhang/feature-representation-for-LLMs/tree/main/Model/Model%20interpretation/Methods%20of%20histgram%20and%20scatter%20plot#methods-of-histgram-and-scatter-plot), to assess as each feature’s overall predictive importance. This differs from the swarm plot and the methodology in Table S8 (https://doi.org/10.1093/bib/bbad534), which calculates the average importance of all features for individual subcellular localization type. this represents a different approach and direction in explanatory analysis based on feature importance.
 
-Additionally, differing from the analysis involved in the swarm plot, our DNN model only includes RF_filter+MLP (with an input feature dimension of 3152), and we have also not considered conducting this analysis on non-homologous datasets and with different feature dimensions input-based model. This is primarily due to constraints related to the publication cycle and other time considerations. We encourage researchers to build upon our work and further explore interpretation studies on features extracted from different positional intervals or sites using large protein language models. We aim to maintain this Github project long-term, including the [figshare dataset](https://figshare.com/articles/dataset/feature-representation-for-LLMs/24312292), as a supplement to our research presented in the paper.
+Additionally, differing from the analysis involved in the swarm plot, DNN model use in this analysis only includes RF_filter+MLP (with an input feature dimension of 3152), and we have also not considered conducting this analysis on non-homologous datasets and with different feature dimensions input-based model. This is primarily due to constraints related to the publication cycle and other time considerations. We encourage researchers to build upon our work and further explore interpretation studies on features extracted from different positional intervals or sites using large protein language models. We aim to maintain this Github project long-term, including the [figshare dataset](https://figshare.com/articles/dataset/feature-representation-for-LLMs/24312292), as a supplement to our research presented in the paper.
 
 ## Comparison model (UDSMProt, Doc2vec model, Deeploc2.0)
 
