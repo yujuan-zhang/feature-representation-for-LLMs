@@ -1,4 +1,4 @@
-1. Define the DNN Model (The model is the same as the previous DNN model).
+1. Define the DNN Model , note the model is the classification DNN model (MLP+RF_filter).
 
 ```python
 ## Define the DNN model
@@ -54,19 +54,18 @@ class ClassificationDNN(nn.Module):
         return predicted_labels, probabilities
 ```
 
-2. Setting up Global Configuration and Workspace Directories for SHAP Analysis.
+2. Loading package and preparing for loading model parameter (which is the same as the DNN trained model and the load path is `'./Model/ESM2_feature_all/DNN_model_param'`)  .
 
 ```python
 # Import necessary libraries
 import os
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy as np
 import shap
 from protloc_mex1.SHAP_conduct import DeepSHAPValueConduct
 
 # Define global parameters and file paths
-open_path=r"<the path of model, model_parameter file and data>"
+open_path=r"./Model/ESM2_feature_all/DNN_model_param"
 save_path=r"<your save path>"
 up_down_name="label"
 type_name=['human']
@@ -133,7 +132,7 @@ X_train_scale_hat = [label_dict[i] for i in X_train_scale_hat]
 X_train_scale_hat_df = pd.DataFrame(X_train_scale_hat, columns=["predict"],index=X_train.index)
 ```
 
-5. Perform Deep SHAP Analysis on datasets and Save SHAP Values
+5. Perform Deep SHAP Analysis on datasets and Save SHAP Values. Note, in this way `DeepSHAPValueConduct` API are designed for easily save shap value in excel form. if you want to save as npy form or other, please using instantiation of `DeepSHAPValueConduct` function `.shap_value_conduct()` directly, which will return shap value in a array form.
 
 ```python
 # Initialize SHAP DeepExplainer
@@ -172,3 +171,5 @@ result_df = pd.DataFrame({'base_value': base_value,
 # Save the base probabilities to an Excel file
 result_df.to_excel(save_path + "/" + type_name[0] + "/" + "shap_global/SHAP_base_probablity.xlsx", index=False)
 ```
+
+At last we thanks for developer for `SHAP` package, we are only integrate different interpretation technique include `SHAP`  in our pipeline, and for promote `SHAP` use in bioinformatics.  Our DNN model based SHAP analysis can directly come true based on `shap.DeepExplainer`, So if our package install or process is not satisfy your system and experiments, you can choose `shap.DeepExplaine` from `SHAP`  directly and reproduce the experiment.

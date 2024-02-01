@@ -1,6 +1,6 @@
 Global Interpretation of DNN Results Using SHAP for Multi-class Classification with the IntegratedGradients Class
 
-1. Define the DNN Model (The model is the same as the previous DNN model).
+1. Define the DNN Model (The model is the same as the previous DNN model). 
 
 ```python
 ## Define the DNN model
@@ -61,13 +61,7 @@ class ClassificationDNN(nn.Module):
 ```python
 import os
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy as np
-import shap
-from protloc_mex1.SHAP_plus import SHAP_importance_sum
-from protloc_mex1.SHAP_conduct import DeepSHAPValueConduct
-from protloc_mex1.SHAP_conduct import SHAPValueConduct
-from protloc_mex1.SHAP_plus import FeaturePlot
 from captum.attr import IntegratedGradients
 from protloc_mex1.IG_calculator import IntegratedGradientsCalculator
 
@@ -116,18 +110,22 @@ label2number = pd.read_excel(os.path.join(open_path, label2number_name))
 4. Preprocessing Datasets and Model Setup for Integrated Gradients analysis.
 
 ```python
+
 # Preprocess the training and testing datasets
-X_train = train_data.drop(columns=up_down_name)
-y_train = train_data[up_down_name]
+X_train = swiss_data.drop(columns=up_down_name)
+y_train = swiss_data[up_down_name]
 
 # Model
 input_dim = X_train.shape[1]
-device = torch.device("cuda" if torch.cuda.is available() else "cpu")
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load the model
 load_model = ClassificationDNN(input_dim=input_dim, hidden_dim=model_optimization_results.loc[0,'Best hidden_dim'],
                              num_classes=len(label2number.index)).to(device)
-load_model.load_state_dict(torch.load(os.path.join(open_path,model_parameters_name))
+
+load_model.load_state_dict(torch.load(os.path.join(open_path,model_parameters_name)))
+
+                           
 load_model.eval()  # Set the model to evaluation mode
 
 # Get model predictions (predicted labels)
@@ -139,11 +137,13 @@ X_train_scale_hat = [label_dict[i] for i in X_train_scale_hat]
 
 # Convert the predicted results to DataFrames
 X_train_scale_hat_df = pd.DataFrame(X_train_scale_hat, columns=["predict"], index=X_train.index)
+
 ```
 
 5. Perform Integrated Gradients analysis on datasets and Save result.
 
 ```python
+
 # Perform local analysis of the PyTorch-based DNN model on the training set using Deep SHAP
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 X_train_tensor = torch.Tensor(X_train.values).to(device)

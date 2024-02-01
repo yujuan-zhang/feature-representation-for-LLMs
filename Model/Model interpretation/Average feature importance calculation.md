@@ -1,6 +1,6 @@
 
 
-1. Global Configuration and Workspace Setup for DL Model Interpretation (Deep SHAP Analysis)
+1. Global Configuration and Workspace Setup for Model Interpretation. 
 
 ```python
 import os
@@ -29,7 +29,7 @@ pattern = re.compile('.csv')
 names = list(map(lambda x: pattern.sub('', x), names))
 ```
 
-2. Calculating and Saving Deep SHAP Importance Summaries
+2. Calculating and Saving feature Importance Summaries. and below we use `SHAP_importance_sum` API for calculate feature importance based on SHAP value or IG value, the core process contain two calculation.  Firstly, take the absolute values of the original SHAP or IG values, where the original values are considered as the contribution of features, and the sign indicates their contribution direction. Taking the absolute value can then be viewed as the importance of the feature. For the underlying theory, please refer to SHAP-related literature. Secondly, average the importance values of each feature across all data instances to measure single feature's average contribution effect. Finally, these values can be further averaged across all features to assess the overall average contribution of the feature set (corresponding to the Mean in a swarm plot). 
 
 ```python
 # Reading the data of ID or SHAP results.
@@ -57,3 +57,5 @@ data_shap_importance_T = SHAP_importance_sum_claulate_outcome['shap_feature_impo
 data_shap_importance_T.to_csv(
     save_path + "/" + type_name[0] + "/shap_feature_" + i_data_name + "_importance_T.csv", index_label='cluster_name')
 ```
+
+Note we not discuss detail in above outcome, but with example in next analysis. besides `FeaturePlot`are not example in this file, please refer to the source code of the `protloc_mex1.SHAP_plus` directly, or you can based on original SHAP or IG value using SHAP package directly to draw `summary plot` or `feature dependence plot`.
