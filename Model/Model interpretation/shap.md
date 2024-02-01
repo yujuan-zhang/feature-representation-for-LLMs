@@ -63,10 +63,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import shap
-from protloc_mex1.SHAP_plus import SHAP_importance_sum
 from protloc_mex1.SHAP_conduct import DeepSHAPValueConduct
-from protloc_mex1.SHAP_conduct import SHAPValueConduct
-from protloc_mex1.SHAP_plus import FeaturePlot
 
 # Define global parameters and file paths
 open_path=r"<the path of model, model_parameter file and data>"
