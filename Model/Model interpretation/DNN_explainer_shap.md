@@ -110,6 +110,10 @@ label2number = pd.read_excel(os.path.join(open_path, label2number_name))
 
 ```python
 # Preprocess training data
+'''
+caution feature in your inference data must equal to the model train data, 
+detail in model training section. 
+'''
 X_train = swiss_data.drop(columns=up_down_name)
 y_train = swiss_data[up_down_name]
 
@@ -172,4 +176,4 @@ result_df = pd.DataFrame({'base_value': base_value,
 result_df.to_excel(save_path + "/" + type_name[0] + "/" + "shap_global/SHAP_base_probablity.xlsx", index=False)
 ```
 
-At last we thanks for developer for `SHAP` package, we are only integrate different interpretation technique include `SHAP`  in our pipeline, and for promote `SHAP` use in bioinformatics.  Our DNN model based SHAP analysis can directly come true based on `shap.DeepExplainer`, So if our package install or process is not satisfy your system and experiments, you can choose `shap.DeepExplaine` from `SHAP`  directly and reproduce the experiment.
+At last we thanks for developer for `SHAP` package, we are only integrate different interpretation technique include `SHAP`  in our pipeline, and for promote `SHAP` use in bioinformatics.  Our DNN model based SHAP analysis can directly come true based on `shap.DeepExplainer`, So if our package install or process is not satisfy your system and experiments, you can choose `shap.DeepExplainer` from `SHAP`  directly and reproduce the experiment.
