@@ -17,7 +17,7 @@ Your contributions, feedback, and suggestions are highly appreciated. If you enc
 
 ## Dataset Available
 
-The raw data regarding train, test and independent sets have been placed in the "source_data" folder (<!--all protein in this experiment are belong to human protein-->). To transform these raw sequences into corresponding feature representations, we will refer to the instructions provided in the mentioned Python toolkits (protloc-mex-x). 
+The raw data regarding train, test and independent sets have been placed in the "source_data" folder (<u>all protein in this experiment are belong to human protein</u>). To transform these raw sequences into corresponding feature representations, we will refer to the instructions provided in the mentioned Python toolkits (protloc-mex-x). 
 
 the final processed data and feature representations generated during the process are already placed on [figshare](https://figshare.com/articles/dataset/feature-representation-for-LLMs/24312292) (DOI:10.6084/m9.figshare.24312292), If you have any questions, please contact the "Author 1: Zeyu Luo Email: [1024226968@qq.com]" for access.
 
