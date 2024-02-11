@@ -47,6 +47,30 @@ We performed a non-homologous operation, which lead to create non-homologous ind
 
 The feature representation used the pre-trained protein model ESM2 developed by Meta company and placed on Hugging Face. For more details, please search in https://huggingface.co/facebook/esm2_t6_8M_UR50D. Besides, we develop  protloc-mex-x which containing detail for 'cls','mean', 'eos','segment 0-9','pho' feature representation from ESM2.
 
+**Segmentation Formula Explanation**
+
+The amino acid sequence is also divided into 10 equal-length segments, and the mean of the representations of the amino acid characters in each segment is calculated, yielding the ‘segment0–9’ mean features. The specific segmentation and calculation methods are as follows:
+$$
+\begin{align}
+(S, R) &= \text{divmod}(L, N), \\
+E_i &= \begin{cases} 
+E_{i-1} + S + 1 & \text{if } i < R, \\
+E_{i-1} + S & \text{otherwise} \tag{1}
+\end{cases}, \\
+Sub_i &= \begin{cases} 
+H[E_{i-1}:E_i] & \text{if } E_i > E_{i-1}, \\ 
+\vec{0} & \text{otherwise}
+\end{cases}, \\
+\text{Specifically, } E_{i-1} &= 0 \text{ if } i = 0.
+\end{align}
+$$
+
+where `L` represents the sequence length, `N` is the number of segments, set to 10 in this study, `S` represents the size of each segment, `R` is the remainder, `Ei`is the ending position, `H` symbolizes the hidden layer feature representations corresponding to the amino acid sequence, `Subi` is the result of the feature representation for residue in each segment, and by further averaging to get each segment mean features, `i` represents the specific segment within the given `N`.
+
+Specifically, for `i = 0`, which is the first segment, `Sub0` represents the position from the start 0 to the end `E0`. 
+
+For example, if the ordinal number `i` is less than the remainder `R`, then `E0 = S+1`, `E1 = 2E0`, `E2 = 3E0`. Additionally, if the end position `Ei` of a segment is greater than the previous end position `E(i-1)`, then `Sub0 = H[0:E0]`, `Sub0 = H[E0:E1]`. In summary, the purpose of the formula design is to ensure that when the sequence cannot be divided evenly, the remainder is distributed one by one to the segments at the front. If the number of amino acid residues in the sequence to be divided is less than the number of divisions `N`, then the subsequent segments will be zero vectors. Our design takes into account the rules of Python slicing. For more details, please refer to our source code on protloc-mex-x (https://pypi.org/project/protloc-mex-x/).
+
 ### Res-VAE dimensional reduction model 
 
 For the detail in training the Res-VAE model refer to [VAE training detail](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/VAE%20model/Res_VAE%20training%20detail.md)
