@@ -50,20 +50,8 @@ The feature representation used the pre-trained protein model ESM2 developed by 
 **Segmentation Formula Explanation**
 
 The amino acid sequence is also divided into 10 equal-length segments, and the mean of the representations of the amino acid characters in each segment is calculated, yielding the ‘segment0–9’ mean features. The specific segmentation and calculation methods are as follows:
-$$
-\begin{align}
-(S, R) &= \text{divmod}(L, N), \\
-E_i &= \begin{cases} 
-E_{i-1} + S + 1 & \text{if } i < R, \\
-E_{i-1} + S & \text{otherwise} \tag{1}
-\end{cases}, \\
-Sub_i &= \begin{cases} 
-H[E_{i-1}:E_i] & \text{if } E_i > E_{i-1}, \\ 
-\vec{0} & \text{otherwise}
-\end{cases}, \\
-\text{Specifically, } E_{i-1} &= 0 \text{ if } i = 0.
-\end{align}
-$$
+
+![](https://github.com/yujuan-zhang/libocell-file/blob/master/feature-representation-for-LLMs/Segmentation%20Formula.png)
 
 where `L` represents the sequence length, `N` is the number of segments, set to 10 in this study, `S` represents the size of each segment, `R` is the remainder, `Ei`is the ending position, `H` symbolizes the hidden layer feature representations corresponding to the amino acid sequence, `Subi` is the result of the feature representation for residue in each segment, and by further averaging to get each segment mean features, `i` represents the specific segment within the given `N`.
 
