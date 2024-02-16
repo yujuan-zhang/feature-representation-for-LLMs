@@ -1,5 +1,3 @@
-Global Interpretation of DNN Results Using SHAP for Multi-class Classification with the IntegratedGradients Class
-
 1. Define the DNN Model (The model is the same as the previous DNN model). 
 
 ```python
