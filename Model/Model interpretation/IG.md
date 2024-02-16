@@ -1,5 +1,3 @@
-Note, the below demo is conduct in Swiss train set. other datasets like the Swiss test and independent datasets are treated in the same manner, and it's important to note that the background datasets in this trial are the respective datasets that need to be explained. For example, when explaining the Swiss train, the background dataset is the Swiss train set; when explaining the Swiss test, the background dataset is the Swiss test.
-
 Global Interpretation of DNN Results Using SHAP for Multi-class Classification with the IntegratedGradients Class
 
 1. Define the DNN Model (The model is the same as the previous DNN model). 
