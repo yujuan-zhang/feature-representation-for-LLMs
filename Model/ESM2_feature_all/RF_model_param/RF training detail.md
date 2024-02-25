@@ -105,7 +105,7 @@ RF model training incorporates various feature sets including 'cls', 'eos', 'pho
 
    
 
-4. For the 'feature all' attributes, the training process is very similar, with the only difference being the need to first use the `SelectFromModel` function from the `sklearn.feature_selection` module to perform feature selection based on feature importance. Specifically, the feature importance threshold `select_model_threshold` is calculated as `0.75 * mean`, which will reduce the dimensionality of ‘feature_all’ from 6418 to 3152. This process is described as building an RF_filter model for feature dimensionality reduction. Specifically, in our training experiment, you may not achieve this importance threshold due to not following our recommended experimental environment. However, it's not a significant issue because we hope our observation is not dependent on the downstream model but aims for more robustness. We will continue to research the feature representation preference.
+4. For the 'feature all' attributes, the training process is very similar, with the only difference being the need to first use the `SelectFromModel` function from the `sklearn.feature_selection` module to perform feature selection based on feature importance. Specifically, the feature importance threshold `select_model_threshold` is calculated as `0.75 * mean`, which will reduce the dimensionality of ‘feature_all’ from 6418 to 3152. This process is described as building an RF_filter model for feature dimensionality reduction.
 
    ```python
    X_train_scale = 'Assume this is your 6418-dimensional, standardized all feature training data.'
