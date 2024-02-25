@@ -1,6 +1,6 @@
 ### DNN model training
 
-In our paper, we have built a subcellular localization classification model based on 'feature all' (dim = 3152) using Deep Neural Networks (DNN). In the following, we provide detailed explanations on data augmentation techniques (using the `imblearn` package), model training hyperparameter optimization (with the `optuna` package) and saving the model weight, classification label mapping dictionary. It's important to note that data augmentation is only applied to the training set.
+In our paper, we have built a subcellular localization classification model based on 'RF_filter + feature all' (dim = 3152) using Deep Neural Networks (DNN). In the following, we provide detailed explanations on data augmentation techniques (using the `imblearn` package), model training hyperparameter optimization (with the `optuna` package) and saving the model weight, classification label mapping dictionary. It's important to note that data augmentation is only applied to the training set.
 
 1. Load `train_data`. Due to GitHub's storage limitations, the `train_data` presented here consists of input features identical to those used in the DNN model and has already been normalized. However, it only contains 20 protein sequences and does not retain the label column, thereby not representing the complete training set for the model. For reproducing the full 'feature all' feature training set, one may refer to the previous steps, or contact the authors for further information.
 

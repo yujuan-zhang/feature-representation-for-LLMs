@@ -214,6 +214,8 @@ Please note that here only the normalization of the 'feature all' feature datase
 
 For using downstream prediction model based on feature representation, we develop several DNN and RF model for different feature representation construction and demonstrate how to use DNN model based on combined feature to inference and evaluate outcome.
 
+For the detail in training the RF_filter model，please refer to the fourth step in [RF training detrail](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/ESM2_feature_all/RF_model_param/RF%20training%20detail.md).
+
 For the detail in training the DNN model and RF model refer to [DNN training detrail](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/ESM2_feature_all/DNN_model_param/DNN%20MLP.md) and [RF training detrail](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Model/ESM2_feature_all/RF_model_param/RF%20training%20detail.md).
 
 For inference using the trained DNN and RF models, please refer to the following guidelines.
