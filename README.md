@@ -6,8 +6,13 @@
 
 - Author 1: Zeyu Luo
      Email: 1024226968@qq.com
+     
 - Author 2: Rui Wang
      Email: 2219312248@qq.com
+     
+- Author 3: Yawen Sun
+
+     Email: 2108437154@qq.com
 
 This repository presents the implementation of "Feature Representation for Latent Language Models (LLMs)" and includes two Python libraries, namely protloc-mex1 ([https://pypi.org/project/protloc-mex1/](https://pypi.org/project/protloc-mex1/)) and protloc-mex-x ([https://pypi.org/project/protloc-mex-x/](https://pypi.org/project/protloc-mex-x/)).
 
@@ -482,6 +487,18 @@ We employed three interpretability methods, DeepExplainer, Integrated Gradient, 
 Additionally, we presented Histogram plots and Scatter plots based on feature importance to measure the distribution of feature significance for overall prediction (summing across all subcellular types). This was specifically implemented in each feature by summing the average importance of feature for the prediction of all subcellular localization types, as represented in the [Methods of histgram and scatter plot](https://github.com/yujuan-zhang/feature-representation-for-LLMs/tree/main/Model/Model%20interpretation/Methods%20of%20histgram%20and%20scatter%20plot#methods-of-histgram-and-scatter-plot), to assess as each feature’s overall predictive importance. This differs from the swarm plot and the methodology in Table S8 (https://doi.org/10.1093/bib/bbad534), which calculates the average importance of all features for individual subcellular localization type. this represents a different approach and direction in explanatory analysis based on feature importance.
 
 Additionally, differing from the analysis involved in the swarm plot, DNN model use in this analysis only includes RF_filter+MLP (with an input feature dimension of 3152), and we have also not considered conducting this analysis on non-homologous datasets and with different feature dimensions input-based model. This is primarily due to constraints related to the publication cycle and other time considerations. We encourage researchers to build upon our work and further explore interpretation studies on features extracted from different positional intervals or sites using large protein language models. We aim to maintain this Github project long-term, including the [figshare dataset](https://figshare.com/articles/dataset/feature-representation-for-LLMs/24312292), as a supplement to our research presented in the paper.
+
+## Model Interpretation supplementary
+
+In the main text and supplementary materials of our journal article, we discussed the similarities and differences between Tree SHAP, Deep Explainer, and Integrated Gradients (IG). The essence is to understand that they are all methods for feature attribution analysis. Moreover, they are not entirely model-agnostic; instead, they are applicable only to specific models. Additionally, their mathematical foundations lead to variations in how they calculate the contribution of different features and, subsequently, their importance analysis. Therefore, when using feature interpretability methods for studying feature representation capabilities, one should either cautiously select a feature attribution algorithm based on mathematics and statistics or, as we did in our paper, simulate a computation process that is not dependent on a specific model or feature attribution algorithms using different feature interpretability techniques and models. Furthermore, due to the publication cycle, the supplementary document 1 on Tree SHAP, Deep Explainer, and IG value might lack detailed descriptions. For more comprehensive information on these methods, please refer to the following resources:
+
+* [SHAP API reference](https://shap-lrjball.readthedocs.io/en/latest/api.html)
+
+* [SAGE introduction website](https://iancovert.com/blog/understanding-shap-sage/)
+
+* [Original IG paper](https://arxiv.org/abs/1703.01365v2)
+
+* "[Interpreting Machine Learning Models With SHAP](https://leanpub.com/shap)" book
 
 ## Comparison model (UDSMProt, Doc2vec model, Deeploc2.0)
 
