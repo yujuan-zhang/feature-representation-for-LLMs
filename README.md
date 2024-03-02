@@ -5,9 +5,9 @@
 ### **Author Contact Information:**
 
 - Author 1: Zeyu Luo, Email: 1024226968@qq.com
-     
+  
 - Author 2: Rui Wang, Email: 2219312248@qq.com
-     
+  
 - Author 3: Yawen Sun, Email: 2108437154@qq.com
 
 
@@ -496,6 +496,12 @@ In the main text and supplementary materials of our journal article, we discusse
 * [Original IG paper](https://arxiv.org/abs/1703.01365v2)
 
 * "[Interpreting Machine Learning Models With SHAP](https://leanpub.com/shap)" book
+
+## Go enrich for pho feature
+
+To investigate whether the features extracted by a ESM2 model embed latent biological attributes and functions, this study examining whether phosphorylation features reflect phosphorylation functions. Initially, proteins in the dataset are divided into different groups based on the distribution intervals of feature attribution values. Subsequently, Gene Ontology (GO) enrichment analysis is conducted on the proteins within these groups. This method achieves clustering of proteins based on the contribution of features and explores whether the GO enrichment results reflect some fundamental attributes of phosphorylation features, particularly those associated with phosphorylation function. This also reflects the potential biological representation mechanisms of phosphorylation embedded in the ESM2 model. Additionally, to ensure the robustness of the experiment, the candidate phosphorylation features are selected based on the top 10% of various feature importance measures to ensure that the feature attribution interval division is representative.
+
+Additionally, the protein UniProt ID needs to be converted to the ENTREZID (Gene ID) in GO enrich experiment.
 
 ## Comparison model (UDSMProt, Doc2vec model, Deeploc2.0)
 
