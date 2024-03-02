@@ -4,15 +4,12 @@
 
 ### **Author Contact Information:**
 
-- Author 1: Zeyu Luo
-     Email: 1024226968@qq.com
+- Author 1: Zeyu Luo, Email: 1024226968@qq.com
      
-- Author 2: Rui Wang
-     Email: 2219312248@qq.com
+- Author 2: Rui Wang, Email: 2219312248@qq.com
      
-- Author 3: Yawen Sun
+- Author 3: Yawen Sun, Email: 2108437154@qq.com
 
-     Email: 2108437154@qq.com
 
 This repository presents the implementation of "Feature Representation for Latent Language Models (LLMs)" and includes two Python libraries, namely protloc-mex1 ([https://pypi.org/project/protloc-mex1/](https://pypi.org/project/protloc-mex1/)) and protloc-mex-x ([https://pypi.org/project/protloc-mex-x/](https://pypi.org/project/protloc-mex-x/)).
 
