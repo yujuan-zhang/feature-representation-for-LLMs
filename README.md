@@ -479,6 +479,8 @@ with pd.ExcelWriter(os.path.join(save_path, "mcc_results.xlsx")) as writer:
 
 ## Model Interpretation 
 
+![]([libocell-file/feature-representation-for-LLMs/Work_Procedure.png at master · yujuan-zhang/libocell-file (github.com)](https://github.com/yujuan-zhang/libocell-file/blob/master/feature-representation-for-LLMs/Work_Procedure.png))
+
 We employed three interpretability methods, DeepExplainer, Integrated Gradient, and Tree SHAP. Using these interpretability methods, we calculated feature importance. For details on the calculation methods and further feature importance visualization, please refer to the [methods](https://github.com/yujuan-zhang/feature-representation-for-LLMs/tree/main/Model/Model%20interpretation). The running steps for these methods are: `RF_Tree_shap` , `DNN_explainer_shap`or `IG` step -> `Average feature importance calculation` step -> `Swarm plot visualization` step.
 
 Additionally, we presented Histogram plots and Scatter plots based on feature importance to measure the distribution of feature significance for overall prediction (summing across all subcellular types). This was specifically implemented in each feature by summing the average importance of feature for the prediction of all subcellular localization types, as represented in the [Methods of histgram and scatter plot](https://github.com/yujuan-zhang/feature-representation-for-LLMs/tree/main/Model/Model%20interpretation/Methods%20of%20histgram%20and%20scatter%20plot#methods-of-histgram-and-scatter-plot), to assess as each feature’s overall predictive importance. This differs from the swarm plot and the methodology in Table S8 (https://doi.org/10.1093/bib/bbad534), which calculates the average importance of all features for individual subcellular localization type. this represents a different approach and direction in explanatory analysis based on feature importance.
@@ -502,6 +504,14 @@ In the main text and supplementary materials of our journal article, we discusse
 To investigate whether the features extracted by a ESM2 model embed latent biological attributes and functions, this study examining whether phosphorylation features potentially reflect phosphorylation functions. Initially, proteins in the dataset are divided into different groups based on the distribution intervals of feature attribution values. Subsequently, Gene Ontology (GO) enrichment analysis is conducted on the proteins within these groups. This method achieves clustering of proteins based on the contribution of features and explores whether the GO enrichment results reflect some fundamental attributes of phosphorylation features, particularly those associated with phosphorylation function. This also reflects the potential biological representation mechanisms of phosphorylation embedded in the ESM2 model. Additionally, to ensure the robustness of the experiment, the candidate phosphorylation features are selected based on the top 10% of important feature(calculated by various feature importance measures) to ensure that the feature attribution interval division is representative.
 
 Additionally, the protein UniProt ID needs to be converted to the ENTREZID (Gene ID) in GO enrich experiment.
+
+## UMAP enviroment set
+
+For the current task, the UMAP library version used is 0.5.3. The parameters employed for UMAP visualization are as follows:
+
+- `random_state`: 0
+- `min_dist`: 0.5
+- `n_neighbors`: 15
 
 ## Comparison model (UDSMProt, Doc2vec model, Deeploc2.0)
 
