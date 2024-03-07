@@ -479,7 +479,7 @@ with pd.ExcelWriter(os.path.join(save_path, "mcc_results.xlsx")) as writer:
 
 ## Model Interpretation 
 
-![](https://github.com/yujuan-zhang/libocell-file/blob/master/feature-representation-for-LLMs/Work_Procedure.png)
+![](https://github.com/yujuan-zhang/libocell-file/blob/master/feature-representation-for-LLMs/Work_procedure.png)
 
 We employed three interpretability methods, DeepExplainer, Integrated Gradient, and Tree SHAP. Using these interpretability methods, we calculated feature importance. For details on the calculation methods and further feature importance visualization, please refer to the [methods](https://github.com/yujuan-zhang/feature-representation-for-LLMs/tree/main/Model/Model%20interpretation). The running steps for these methods are: `RF_Tree_shap` , `DNN_explainer_shap`or `IG` step -> `Average feature importance calculation` step -> `Swarm plot visualization` step.
 
