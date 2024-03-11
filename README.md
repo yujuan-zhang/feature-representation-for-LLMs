@@ -505,6 +505,10 @@ To investigate whether the features extracted by a ESM2 model embed latent biolo
 
 Additionally, the protein UniProt ID needs to be converted to the ENTREZID (Gene ID) in GO enrich experiment.
 
+The algorithm implementation idea refers to the work by Rui Qin et al. ( https://doi.org/10.1016/j.isci.2022.105163), which is based on using SHAP to select key predictive genes for glycosylation occurrence and conducting GO enrichment analysis on related genes. The assumption is that the features with core impacts on prediction are often the key factors influencing model decisions, and hence, these features might contain richer representational information. For a protein dataset, when key phosphorylation features are selected, based on the properties of SHAP and IG algorithms, the greater the feature attribution values, the more significant is the protein's contribution to the prediction, indicating stronger decision-making influence of the model. In other words, these proteins might possess richer representational information. Conducting GO enrichment for proteins with high feature attribution values can reflect the key biological function representational information of the features, which is highly related to model predictions.
+
+However, this result requires a cautious interpretation. On one hand, drawing conclusions directly from GO enrichment results is limited, as noted by Kaumadi Wijesooriya (PMCID: PMC8936487 DOI: 10.1371/journal.pcbi.1009935) and James A Timmons (PMCID: PMC4561415 DOI: 10.1186/s13059-015-0761-7). On the other hand, this study does not perform tasks directly predicting phosphorylation sites or functions, which is a direction for future work. Therefore, these results should only be viewed as potential signals indicating that ESM2 captures biological functional representational information, with the primary aim being to provide a potential method and approach.
+
 ## UMAP enviroment set
 
 For the current task, the UMAP library version used is 0.5.3. The parameters employed for UMAP visualization are as follows:

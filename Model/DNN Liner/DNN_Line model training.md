@@ -1,6 +1,6 @@
 ### DNN_Line model training
 
-In the context of our research, we have developed a subcellular localization classification model. This model is based on a feature set that includes 'feature all' (with a dimension of 6418), 'cls,' 'eos,' 'mean,' 'segment0,' 'pho,' and other relevant features. The core architecture of the model is a deep neural network (DNN_Line) with the inclusion of a linear adaptation layer.
+In the context of our research, we have developed a subcellular localization classification model. This model is based on a feature set that includes 'feature all' (with a dimension of 6418), 'cls,' 'eos,' 'mean,' 'segment0-9,' 'pho,' and other relevant features. The core architecture of the model is a deep neural network (DNN_Line) with the inclusion of a linear adaptation layer.
 
 1. This step is similar to the first step of the DNN model, so we won't delve into it in great detail.
 
