@@ -6,7 +6,7 @@ This section provides a convenient example for efficiently accomplishing the pro
 
 Procedure:
 
-1. To ensure a smooth process, first verify that your current working environment is set up and configured according to the **Work Environment Setup** guide under `Setting Up the Work Environment` in the GitHub project **Feature Representation for LLMs**. This is a prerequisite for all operations to proceed as expected.
+1. To ensure a smooth process, first verify that your current working environment is set up and configured according to the **Work Environment Setup** guide under [Setting Up the Work Environment](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Work%20Environment%20Setup/Setting%20Up%20the%20Work%20Environment.md) in the GitHub project **Feature Representation for LLMs**. This is a prerequisite for all operations to proceed as expected.
 
 3. Navigate to the `mean_DNN_linear_inference` directory:
    ```bash
@@ -18,7 +18,7 @@ Procedure:
 
 4. The input file format should be Excel, where the column name for protein sequences must be set to 'Sequence', and the column name for protein IDs should be set to 'Entry'. Place this file in the `data/in` directory within the current folder (note: currently, only a single Excel file is supported).
 
-   If the file has a `.faa` or `.fasta` extension (i.e., it's a FASTA formatted protein sequence), after placing it in the `data/in` directory, run the following command in the `step 2` environment path:
+   If the file has a `.faa` or `.fasta` extension (it's a FASTA formatted protein sequence), after placing it in the `data/in` directory, run the following command in the `step 2` environment path:
    
    ```bash
    python ./code/data_prepared.py
