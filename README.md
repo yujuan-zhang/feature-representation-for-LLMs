@@ -477,7 +477,7 @@ with pd.ExcelWriter(os.path.join(save_path, "mcc_results.xlsx")) as writer:
                                ndex=False)
 ```
 
-## model usage demo
+## Model usage demo
 
 This section provides a convenient example for efficiently accomplishing the protein sequence feature extraction task in this project. Specifically, it leverages the ESM2 model to perform deep analysis and feature extraction on protein sequences, followed by utilizing the extracted features for subcellular localization prediction of proteins. For detailed steps and methods, please refer to the method [details](https://github.com/yujuan-zhang/feature-representation-for-LLMs/tree/main/Model/mean_DNN_linear_inference).
 
