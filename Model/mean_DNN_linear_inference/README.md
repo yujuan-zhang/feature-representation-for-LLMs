@@ -16,7 +16,7 @@ Procedure:
    cd D:\work\mean_DNN_linear_inference
    ```
 
-4. The input file format should be Excel, where the column name for protein sequences must be set to 'Sequence', and the column name for protein IDs should be set to 'Entry'. Place this file in the `data/in` directory within the current folder (note: currently, only a single Excel file is supported).
+4. The input file format should be Excel, where the column name for protein sequences must be set to 'Sequence', and the column name for protein IDs should be set to 'Entry'. Place this file in the `data/in` directory within the current folder (note: currently, only a single excel file is supported).
 
    If the file has a `.faa` or `.fasta` extension (it's a FASTA formatted protein sequence), after placing it in the `data/in` directory, run the additional step as below (Excel format file does not require this step):
    
@@ -33,5 +33,3 @@ Procedure:
    ```
 
    When running this script, the system will prompt whether to use an ESM2 model "local" or "download". If choosing 'local', you need to pre-download the ESM2 model from Hugging Face and place it in the `mean_DNN_linear_inference\data\local_model` path (this is where [details](https://github.com/yujuan-zhang/feature-representation-for-LLMs/tree/main/Model/mean_DNN_linear_inference/data/local_model#file-description) about the required files are provided). If selecting 'download', the script will automatically connect to the ESM2 model hosted on Hugging Face (not recommended if network conditions are poor).
-
-We ran into an issue while signing you in, please take a break and try again soon.
