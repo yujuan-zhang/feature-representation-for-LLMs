@@ -37,31 +37,43 @@
    # Input and output directories
    open_path = "<your_data_path>"
    save_path = "<your_save_path>"
+   filenames = os.listdir(open_path)
    
-   for filename in os.listdir(open_path):
+   for filename in filenames:
        file_path = os.path.join(open_path, filename)
        # Define output FASTA filename
        if filename.endswith('.xlsx'):
            # Read Excel file
            df = pd.read_excel(file_path)
            fasta_filename = filename[:-5] + '.fasta'  # Remove '.xlsx' from filename and append '.fasta'
+           
+           # Define output FASTA file path
+           fasta_file_path = os.path.join(save_path, fasta_filename)
+   
+           # Convert to FASTA format and save
+           with open(fasta_file_path, 'w') as fasta_file:
+               for index, row in df.iterrows():
+                   entry = row["Entry"]
+                   sequence = row["Sequence"]
+                   fasta_file.write(f">{entry}\n{sequence}\n")
        elif filename.endswith('.csv'):
            # Read CSV file
            df = pd.read_csv(file_path)
            fasta_filename = filename[:-4] + '.fasta'  # Remove '.csv' from filename and append '.fasta'
+           
+           # Define output FASTA file path
+           fasta_file_path = os.path.join(save_path, fasta_filename)
+   
+           # Convert to FASTA format and save
+           with open(fasta_file_path, 'w') as fasta_file:
+               for index, row in df.iterrows():
+                   entry = row["Entry"]
+                   sequence = row["Sequence"]
+                   fasta_file.write(f">{entry}\n{sequence}\n")
+       
        else:
-           print("If the file is not in xlsx or csv format, please convert it based on the code.")
-           break  # Terminate the loop if file is not .xlsx or .csv
-   
-       # Define output FASTA file path
-       fasta_file_path = os.path.join(save_path, fasta_filename)
-   
-       # Convert to FASTA format and save
-       with open(fasta_file_path, 'w') as fasta_file:
-           for index, row in df.iterrows():
-               entry = row["Entry"]
-               sequence = row["Sequence"]
-               fasta_file.write(f">{entry}\n{sequence}\n")
+           print(f"If the file {filename} is not in xlsx or csv format, please convert it based on the code.")
+           continue
    ```
 
 2. Based on comparison protein sequence data, create a local homologous comparison datasets, specifically，in our experiment，we set swiss data （combine swiss train and test）as local homologous comparison datasets. please execute the following tasks in the terminal.
