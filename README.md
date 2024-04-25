@@ -47,7 +47,7 @@ We performed a non-homologous operation, which lead to create non-homologous ind
 
 ### Feature representation model
 
-The feature representation used the pre-trained protein model ESM2 developed by Meta company and placed on Hugging Face. For more details, please search in https://huggingface.co/facebook/esm2_t6_8M_UR50D. Besides, we develop  protloc-mex-x which containing detail for 'cls','mean', 'eos','segment 0-9','pho' feature representation from ESM2.
+The feature representation used the pre-trained protein model ESM2 developed by Meta company and placed on Hugging Face. For more details, please search in https://huggingface.co/facebook/esm2_t6_8M_UR50D. Besides, we develop  [protloc-mex-x](https://pypi.org/project/protloc_mex_X/) which containing detail for 'cls','mean', 'eos','segment 0-9','pho' feature representation from ESM2.
 
 **Segmentation Formula Explanation**
 
@@ -477,7 +477,7 @@ with pd.ExcelWriter(os.path.join(save_path, "mcc_results.xlsx")) as writer:
                                ndex=False)
 ```
 
-## Model usage demo
+## Model usage demo end-to-end prediction deployment
 
 This section provides a convenient example for efficiently accomplishing the protein sequence feature extraction task in this project. Specifically, it leverages the ESM2 model to perform deep analysis and feature extraction on protein sequences, followed by utilizing the extracted features for subcellular localization prediction of proteins. For detailed steps and methods, please refer to the method [details](https://github.com/yujuan-zhang/feature-representation-for-LLMs/tree/main/Model/mean_DNN_linear_inference).
 
@@ -527,7 +527,7 @@ In this study, we employed UDSMProt, Doc2vec models (sequence2_doc2vec and seque
 
 ## Citation
 
-If our work has contributed to your research, we would greatly appreciate it if you could cite our work as follows. Please note that while this citation related to the article has been accepted for publication, it has not yet been formally published. We are pre-releasing the citation in accordance with the journal's policy, and this page will be updated once the article is officially online. Thank you for your understanding and support.
+If our work has contributed to your research, we would greatly appreciate it if you could cite our work as follows. 
 
 Zeyu Luo, Rui Wang, Yawen Sun, Junhao Liu, Zongqing Chen, Yu-Juan Zhang, Interpretable feature extraction and dimensionality reduction in ESM2 for protein localization prediction, *Briefings in Bioinformatics*, Volume 25, Issue 2, March 2024, bbad534, https://doi.org/10.1093/bib/bbad534.
 
