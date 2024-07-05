@@ -102,24 +102,24 @@ def compare_with_groups_and_log_scale(df, compare_group, group_indices, filename
     plt.figure(figsize=figure_size)
 
     # Create a box plot
-    palette = {group: color for group, color in zip(df['group'].unique(), sns.color_palette("colorblind", len(df['group'].unique()))}
-    ax = sns.swarmplot(x='group', y='log_value', data df, order=group_indices, palette=palette, size=2)
+    palette = {group: color for group, color in zip(df['group'].unique(), sns.color_palette("colorblind", len(df['group'].unique())))}
+    ax=sns.swarmplot(x='group', y='log_value', data=df, order=group_indices, palette=palette,size=2)
 
     # Calculate and add mean values to the chart
     group_means = df.groupby('group')['value'].mean()
     for i, mean in enumerate(group_means):
-        ax.text(i, np.log(max(mean, 1)), f"Mean: {mean:.6f}",
+        ax.text(i, np.log(max(mean, 1)), f"Mean: {mean:.6f}", 
                      horizontalalignment='center', color='black', weight='semibold')
 
     # Calculate and add comparison lines and corresponding p-values
     values_1 = df[df['group'] == compare_group]['value']
     y_max = df['log_value'].max()
-    offset = (y_max - df['log_value'].min()) * 0.1
+    offset = (y_max - df['log_value'].min()) * 0.1  
     for i, group in enumerate(group_indices):
         if group != compare_group:
             values_2 = df[df['group'] == group]['value']
             _, p_value = mannwhitneyu(values_1, values_2)
-            y = max(np.log(max(group_means[[compare_group, group]]), 1) + i * offset
+            y = max(np.log(max(group_means[[compare_group, group]])), 1) + i * offset  
             line_x = [i, group_indices.index(compare_group)]
             line_x.sort()
             plt.plot(line_x, [y, y], color='black')
