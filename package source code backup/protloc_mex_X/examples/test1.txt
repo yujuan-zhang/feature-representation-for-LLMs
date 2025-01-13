@@ -1,0 +1,66 @@
+>seq1	23 amino acids
+#
+# netphos-3.1b prediction results
+#
+# Sequence		   # x   Context     Score   Kinase    Answer
+# -------------------------------------------------------------------
+# seq1                     2 S   ---ASTPGH   0.622   PKC        YES
+# seq1                     3 T   --ASTPGHT   0.875   unsp       YES
+#
+    ASTPGHTIIYEAVCLHNDRTTIP                              #     50
+%1  .ST....................
+
+
+
+>seq2	152 amino acids
+#
+# netphos-3.1b prediction results
+#
+# Sequence		   # x   Context     Score   Kinase    Answer
+# -------------------------------------------------------------------
+# seq2                     2 S   ---ASQKRP   0.865   PKC        YES
+# seq2                     7 S   QKRPSQRHG   0.997   unsp       YES
+# seq2                    12 S   QRHGSKYLA   0.900   unsp       YES
+# seq2                    14 Y   HGSKYLATA   0.585   unsp       YES
+# seq2                    17 T   KYLATASTM   0.503   cdc2       YES
+# seq2                    19 S   LATASTMDH   0.885   unsp       YES
+# seq2                    35 T   RHRDTGILD   0.732   unsp       YES
+# seq2                    40 S   GILDSIGRF   0.555   unsp       YES
+# seq2                    56 Y   PKNMYKDSH   0.897   unsp       YES
+# seq2                    59 S   MYKDSHHPA   0.534   PKG        YES
+# seq2                    70 S   AHYGSLPQK   0.583   PKC        YES
+# seq2                    75 S   LPQKSHGRT   0.978   unsp       YES
+# seq2                    79 T   SHGRTQDEN   0.517   CKII       YES
+# seq2                    94 T   KNIVTPRTP   0.741   unsp       YES
+# seq2                    97 T   VTPRTPPPS   0.640   unsp       YES
+# seq2                   101 S   TPPPSQGKG   0.991   unsp       YES
+# seq2                   108 S   KGRKSAHKG   0.995   unsp       YES
+# seq2                   123 S   QGTLSKIFK   0.847   PKC        YES
+# seq2                   133 S   GGRDSRSGS   0.987   unsp       YES
+# seq2                   135 S   RDSRSGSPM   0.860   unsp       YES
+# seq2                   137 S   SRSGSPMAR   0.994   unsp       YES
+#
+    ASQKRPSQRHGSKYLATASTMDHARHGFLPRHRDTGILDSIGRFFGGDRG   #     50
+    APKNMYKDSHHPARTAHYGSLPQKSHGRTQDENPVVHFFKNIVTPRTPPP   #    100
+    SQGKGRKSAHKGFKGVDAQGTLSKIFKLGGRDSRSGSPMARRELVISLIV   #    150
+    ES                                                   #    200
+%1  .S....S....S.Y..T.S...............T....S..........   #     50
+%1  .....Y..S..........S....S...T..............T..T...   #    100
+%1  S......S..............S.........S.S.S.............   #    150
+%1  ..
+
+
+
+
+>seq3	23 amino acids
+#
+# netphos-3.1b prediction results
+#
+# Sequence		   # x   Context     Score   Kinase    Answer
+# -------------------------------------------------------------------
+# seq3                     2 S   ---ASTPGH   0.622   PKC        YES
+# seq3                     3 T   --ASTPGHT   0.875   unsp       YES
+#
+    ASTPGHTIIYEAVCLHNDRTTIP                              #     50
+%1  .ST....................
+
