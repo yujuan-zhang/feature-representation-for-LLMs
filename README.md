@@ -38,6 +38,9 @@ To ensure that you can replicate our work from the paper accurately, we recommen
 - protloc-mex1 version: 0.0.21
 
 Here are the [details](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Work%20Environment%20Setup/Setting%20Up%20the%20Work%20Environment.md).
+### PyPI Open Source
+
+We have made the source code for `protloc-mex-x` and `protloc-mex1` available [here](). This is especially useful for those who are not familiar with PyPI and prefer to reference the source code directly. However, please note that this serves as a backup, and the latest updates will continue to be released directly on PyPI (protloc-mex1 ([https://pypi.org/project/protloc-mex1/](https://pypi.org/project/protloc-mex1/)) and protloc-mex-x ([https://pypi.org/project/protloc-mex-x/](https://pypi.org/project/protloc-mex-x/))).
 
 ## Non-homologous division process
 
