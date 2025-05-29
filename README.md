@@ -17,6 +17,9 @@ For detailed usage instructions regarding these two Python libraries, please ref
 
 Your contributions, feedback, and suggestions are highly appreciated. If you encounter any issues or have questions, feel free to reach out to the authors via the provided email addresses. Thank you for your interest in our work!
 
+### Update new 
+For new release and update please refer to this document
+
 ## Dataset Available
 
 The raw data regarding train, test and independent sets have been placed in the "source_data" folder (**Note**: all protein in this experiment are belong to human protein). To transform these raw sequences into corresponding feature representations, we will refer to the instructions provided in the mentioned Python toolkits (protloc-mex-x). 
