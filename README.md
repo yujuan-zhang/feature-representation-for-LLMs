@@ -542,3 +542,8 @@ If you are using the ESM-2 model in your project or research,  please refer to o
 ## Acknowledgments
 
 we are acknowledge the contributions of the open-source community and the developers of the Python libraries used in this study.
+
+## Related Works
+If you are interested in feature extraction and model interpretation for RNA-seq foundation models (like scFoundation and geneformer), you may find our new work helpful:
+
+scATD: (GitHub Repository)[https://github.com/doriszmr/scATD]
