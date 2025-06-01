@@ -546,4 +546,4 @@ we are acknowledge the contributions of the open-source community and the develo
 ## Related Works
 If you are interested in feature extraction and model interpretation for RNA-seq foundation models (like scFoundation and geneformer), you may find our new work helpful:
 
-scATD: (GitHub Repository)[https://github.com/doriszmr/scATD]
+scATD: [GitHub Repository](https://github.com/doriszmr/scATD)
