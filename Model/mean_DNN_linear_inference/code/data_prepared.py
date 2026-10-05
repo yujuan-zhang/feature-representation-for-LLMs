@@ -109,8 +109,10 @@ def read_fasta(fasta_path, extension):
 
 
 # Set the input and output paths
-input_path = './data/in'
-output_path = './data/out'  # Modify this path to your desired output directory
+from pathlib import Path
+base_dir = Path(__file__).resolve().parent.parent
+input_path = str(base_dir / 'data/in')
+output_path = str(base_dir / 'data/out')
 
 if not os.path.isdir(output_path):
     os.makedirs(output_path)
@@ -129,4 +131,4 @@ for key, value in results.items():
     output_file_name = os.path.join(output_path, f'{key}.xlsx')
     value.to_excel(output_file_name, index=False)
 
-print('run data_prepared.py success. excel outcome are deployed in ./mean_DNN_linear_inference/data/in')
+print('Converted Excel files saved to: ' + output_path)

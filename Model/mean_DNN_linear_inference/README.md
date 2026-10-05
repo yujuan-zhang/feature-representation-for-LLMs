@@ -1,35 +1,47 @@
-## Model usage demo
+# Protein localization example
 
-This section provides a convenient example for efficiently accomplishing the protein sequence feature extraction task in this project. Specifically, it leverages the ESM2 model to perform deep analysis and feature extraction on protein sequences, followed by utilizing the extracted features for subcellular localization prediction of proteins. For detailed steps and methods, please refer to the following content:
+Use this example to predict protein localization from 1,280 mean ESM2 features
+with the bundled 10-class linear classifier. From the repository root:
 
-**Note**: To work with this section, download the folder to your local directory or manually create a corresponding path and place the files and code from this section within that path.
+```bash
+python Model/mean_DNN_linear_inference/code/mean_DNN_linear_mean_inference.py \
+  --features Model/mean_DNN_linear_inference/output/sample_data_feature_rep.xlsx \
+  --output-dir results/mean-example
+```
 
-Procedure:
+This route requires PyTorch, pandas, NumPy and openpyxl. It reuses 270 bundled
+feature rows and the small project-trained classifier; no ESM2 download is needed.
+Input columns must be `Entry`, `Sequence`, then `ESM2_mean0` through
+`ESM2_mean1279` in order, with finite numeric values. Output is
+`results/mean-example/sample_data_prediction.xlsx`, with `Entry`,
+`predict_topic` and `predict_probability`. Compare IDs and labels against
+`Model/mean_DNN_linear_inference/output/sample_data_prediction.xlsx`; maximum
+class probabilities should agree within 1e-5. The prior local 270-row classifier
+check took 9.21 seconds including imports and comparison. The entry point using
+this GitHub layout was also checked against the reference; timing depends on
+hardware and the installed environment.
 
-1. To ensure a smooth process, first verify that your current working environment is set up and configured according to the **Work Environment Setup** guide under [Setting Up the Work Environment](https://github.com/yujuan-zhang/feature-representation-for-LLMs/blob/main/Work%20Environment%20Setup/Setting%20Up%20the%20Work%20Environment.md) in the GitHub project **Feature Representation for LLMs**. This is a prerequisite for all operations to proceed as expected.
+## Raw sequences
 
-3. Navigate to the `mean_DNN_linear_inference` directory:
-   ```bash
-   cd path_to_file\mean_DNN_linear_inference
-   
-   # In my personal PC case:
-   cd D:\work\mean_DNN_linear_inference
-   ```
+For Excel input, supply `Entry` and `Sequence` columns explicitly:
 
-4. The input file format should be Excel, where the column name for protein sequences must be set to 'Sequence', and the column name for protein IDs should be set to 'Entry'. Place this file in the `data/in` directory within the current folder (note: currently, only a single excel file is supported).
+```bash
+python Model/mean_DNN_linear_inference/code/mean_DNN_linear_mean_inference.py \
+  --input Model/mean_DNN_linear_inference/data/in/Excel_format_protein_sequence_data_example.xlsx \
+  --output-dir results/raw-mean
+```
 
-   If the file has a `.faa` or `.fasta` extension (it's a FASTA formatted protein sequence), after placing it in the `data/in` directory, run the additional step as below (Excel format file does not require this step):
-   
-   ```bash
-   python ./code/data_prepared.py
-   # This script converts the FASTA-formatted protein sequence data file into a format suitable for further processing.
-   ```
+Raw extraction additionally needs Transformers and protloc-mex-x and the full
+`facebook/esm2_t33_650M_UR50D` model. Choose `download` at the prompt, or `local`
+when `data/local_model/` contains the complete pretrained model. The small
+project classifiers are separate from the ESM2 backbone. Full extraction and
+segment0 prediction were not executed; their runtime is not measured.
 
-5. Run the following codes to perform model inference and obtain predicted subcellular localization labels:
+The alternative script is `code/mean_DNN_linear_segment0_mean_inference.py`;
+pass the same explicit `--input` and a separate `--output-dir`. Raw extraction
+writes `<stem>_feature_rep.xlsx` and `<stem>_prediction.xlsx`.
 
-   ```bash
-   python ./code/mean_DNN_linear_mean_inference.py  # This script acquires mean-pooled representation features; run this command to make predictions based on these features.
-   python ./code/mean_DNN_linear_segment0_mean_inference.py  # This script gets features pooled from segment0; if you wish to make predictions based on these features, execute this command.
-   ```
-
-   When running this script, the system will prompt whether to use an ESM2 model "local" or "download". If choosing 'local', you need to pre-download the ESM2 model from Hugging Face and place it in the `mean_DNN_linear_inference\data\local_model` path (this is where [details](https://github.com/yujuan-zhang/feature-representation-for-LLMs/tree/main/Model/mean_DNN_linear_inference/data/local_model#file-description) about the required files are provided). If selecting 'download', the script will automatically connect to the ESM2 model hosted on Hugging Face (not recommended if network conditions are poor).
+For FASTA/FAA, run `python Model/mean_DNN_linear_inference/code/data_prepared.py`.
+It converts files from `data/in/` to `data/out/` under this example directory;
+pass the converted workbook with `--input`. Conversion overwrites output files
+with the same stem. Keep separate output directories for different runs.

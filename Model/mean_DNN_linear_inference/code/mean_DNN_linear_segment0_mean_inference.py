@@ -35,7 +35,7 @@
 #     tokenizer = AutoTokenizer.from_pretrained(model_name)
 #     model = AutoModelForMaskedLM.from_pretrained(model_name, output_hidden_states=True)
 # else:
-#     print("Invalid choice. Please type 'local' or 'download'.")
+#     raise SystemExit("Invalid choice. Please type 'local' or 'download'.")
 # 
 # 
 # 
@@ -158,18 +158,33 @@ import pandas as pd
 from protloc_mex_X.ESM2_fr import Esm2LastHiddenFeatureExtractor
 
 # Set directories and file paths
-open_path = './data/in'
-save_path = './output'
-local_model_file = './data/local_model'
-local_DNN_linear_model = './data/DNN_linear_segment0_mean_model'
+from pathlib import Path
+base_dir = Path(__file__).resolve().parent.parent
+open_path = str(base_dir / 'data/in')
+save_path = str(base_dir / 'output')
+local_model_file = str(base_dir / 'data/local_model')
+local_DNN_linear_model = str(base_dir / 'data/DNN_linear_segment0_mean_model')
 
-# Get the list of files in the 'open_path' directory
-files = [file for file in os.listdir(open_path) if file.endswith('.xlsx')]
+import argparse
+parser = argparse.ArgumentParser(description='Predict localization from one protein Excel file.')
+source = parser.add_mutually_exclusive_group()
+source.add_argument('--input', type=Path, help='Excel file with Entry and Sequence columns')
+parser.add_argument('--output-dir', type=Path, help='Separate output directory; defaults to the bundled output directory')
+args = parser.parse_args()
+files = sorted(Path(open_path).glob('*.xlsx'))
+if args.input:
+    input_file = args.input.expanduser().resolve()
+elif len(files) == 1:
+    input_file = files[0]
+else:
+    parser.error('Expected one Excel file in the input directory; specify --input explicitly.')
+if not input_file.is_file():
+    parser.error('Input file does not exist: ' + str(input_file))
+species_name = input_file.stem
+if args.output_dir:
+    save_path = str(args.output_dir.expanduser().resolve())
+Path(save_path).mkdir(parents=True, exist_ok=True)
 
-# Assume there is only one .xlsx file in the directory and that it's the file we are interested in
-species_name = files[0].replace('.xlsx', '')
-
-# Allow user to choose between using a local model or downloading one
 choice = input("Do you want to use a local model or download one? Type 'local' or 'download': ").strip().lower()
 
 # Initialize the tokenizer and model based on user's choice
@@ -182,10 +197,10 @@ elif choice == 'download':
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForMaskedLM.from_pretrained(model_name, output_hidden_states=True)
 else:
-    print("Invalid choice. Please type 'local' or 'download'.")
+    raise SystemExit("Invalid choice. Please type 'local' or 'download'.")
 
 # Load protein sequences into DataFrame
-protein_sequence_df = pd.read_excel(open_path + '/' + species_name + '.xlsx')
+protein_sequence_df = pd.read_excel(input_file)
 
 # Initialize feature extractor with specified options
 feature_extractor = Esm2LastHiddenFeatureExtractor(tokenizer, model,
@@ -249,7 +264,7 @@ num_classes = 10
 
 # Load model parameters
 load_model = DNNLine(input_dim=input_dim, num_classes=num_classes).to(device)
-load_model.load_state_dict(torch.load(os.path.join(local_DNN_linear_model, 'model_parameters.pt')))
+load_model.load_state_dict(torch.load(os.path.join(local_DNN_linear_model, 'model_parameters.pt'), map_location=device))
 load_model.eval()
 
 # Prepare data for inference
@@ -283,4 +298,4 @@ X_inference_data_hat = pd.concat([X_inference_data_hat_df, X_inference_data_prob
 # Save the predictions to an Excel file
 X_inference_data_hat.to_excel(save_path + '/' + species_name + '_prediction.xlsx')
 
-print('run mean_DNN_linear_inference.py success, feature representation and prediction outcome are deploted in ./mean_DNN_linear_inference/output')
+print('Prediction saved to: ' + str(Path(save_path) / (species_name + '_prediction.xlsx')))
